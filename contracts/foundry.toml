@@ -1,0 +1,15 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+solc_version = "0.8.24"
+optimizer = true
+optimizer_runs = 200
+via_ir = true
+
+[rpc_endpoints]
+qie_mainnet = "https://rpc-main1.qiblockchain.online/"
+qie_mainnet2 = "https://rpc-main2.qiblockchain.online/"
+
+[etherscan]
+qie_mainnet = { key = "NO_KEY_REQUIRED", url = "https://mainnet.qiblockchain.online/api" }
