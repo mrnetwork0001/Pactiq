@@ -27,6 +27,8 @@ import { openCheckInDay } from "@/lib/pactTime";
 import { SwapSheet } from "@/components/SwapSheet";
 import { BottomNav, MoreView, TodayView, type MobileTab } from "@/components/MobileHome";
 import { WalletPicker } from "@/components/WalletPicker";
+import { NameSheet } from "@/components/NameSheet";
+import { useQieName } from "@/hooks/useQie";
 import { TxTracker, useTxTracker, type TrackControls } from "@/components/TxTracker";
 import { activeChain, CONTRACT_ADDRESS, explorerTx, QIE_WALLET_URL } from "@/lib/chain";
 import { describeError } from "@/lib/pactiq";
@@ -63,6 +65,8 @@ export default function App({ initialSquadId = null }: { initialSquadId?: number
   const [createOpen, setCreateOpen] = useState(false);
   const [swapOpen, setSwapOpen] = useState(false);
   const [walletPicker, setWalletPicker] = useState(false);
+  const [nameOpen, setNameOpen] = useState(false);
+  const displayName = useQieName(wallet.address, data.profile?.qieId);
   const [squadCreate, setSquadCreate] = useState<{ sponsored: boolean } | null>(null);
   const [openSquadId, setOpenSquadId] = useState<number | null>(initialSquadId);
   const [checkInTarget, setCheckInTarget] = useState<{ pact: PactWithDays; day: number } | null>(null);
@@ -403,7 +407,8 @@ export default function App({ initialSquadId = null }: { initialSquadId?: number
 
       <Header
         wallet={wallet}
-        qieId={data.profile?.qieId}
+        qieId={displayName ?? undefined}
+        onSetName={() => setNameOpen(true)}
         onConnect={connect}
         onOpenCreate={openCreate}
         bottomNav
@@ -537,7 +542,7 @@ export default function App({ initialSquadId = null }: { initialSquadId?: number
         {tab === "TODAY" && (
           <TodayView
             wallet={wallet}
-            name={data.profile?.qieId || null}
+            name={displayName}
             now={now}
             loading={data.loading}
             pacts={activePacts}
@@ -555,7 +560,7 @@ export default function App({ initialSquadId = null }: { initialSquadId?: number
         {tab === "MORE" && (
           <MoreView
             wallet={wallet}
-            name={data.profile?.qieId || null}
+            name={displayName}
             profile={data.profile}
             remindersOff={now > 0 && reminders.permission === "default"}
             onConnect={chooseWallet}
@@ -697,6 +702,7 @@ export default function App({ initialSquadId = null }: { initialSquadId?: number
       <BottomNav tab={tab} due={dueToday} onChange={goTo} />
 
       <TxTracker tracked={tracker.tracked} onClose={tracker.close} />
+      <NameSheet open={nameOpen} address={wallet.address} onClose={() => setNameOpen(false)} />
 
       <WalletPicker
         open={walletPicker && !wallet.address}

@@ -2,7 +2,7 @@
 
 import React, { useCallback, useState } from "react";
 import Link from "next/link";
-import { Wallet, AlertTriangle, LogOut, ExternalLink, UserRound } from "lucide-react";
+import { Wallet, AlertTriangle, BadgeCheck, LogOut, ExternalLink, UserRound } from "lucide-react";
 import { activeChain, addChainParams, explorerAddress, QIE_WALLET_URL } from "@/lib/chain";
 import { formatQie, shortAddress } from "@/lib/format";
 import type { WalletState } from "@/hooks/useWallet";
@@ -12,6 +12,8 @@ import { Burger, Button, Drawer, Kicker, Mark } from "./ui";
 interface HeaderProps {
   wallet: WalletState;
   qieId?: string;
+  /** Opens the "set your .qie name" sheet. Shown in the wallet menu while the wallet has no name. */
+  onSetName?: () => void;
   onConnect: (option?: WalletOption) => void;
   onOpenCreate: () => void;
   /** Extra sections for the phone/tablet drawer; call `close` after any navigation. */
@@ -33,7 +35,7 @@ export function Wordmark({ size = 34 }: { size?: number }) {
   );
 }
 
-export const Header: React.FC<HeaderProps> = ({ wallet, qieId, onConnect, onOpenCreate, menu, bottomNav = false }) => {
+export const Header: React.FC<HeaderProps> = ({ wallet, qieId, onSetName, onConnect, onOpenCreate, menu, bottomNav = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [drawer, setDrawer] = useState(false);
@@ -90,10 +92,22 @@ export const Header: React.FC<HeaderProps> = ({ wallet, qieId, onConnect, onOpen
                 <div className="absolute right-0 mt-2 w-64 sheet rounded-md p-4 z-50 space-y-3">
                   <div>
                     <div className="kicker">{wallet.walletName}</div>
+                    {qieId && <div className="font-semibold mt-0.5 truncate">{qieId}</div>}
                     <div className="num text-sm mt-0.5">{shortAddress(wallet.address)}</div>
                     {wallet.balance !== null && <div className="num text-sm text-kept mt-0.5">{formatQie(wallet.balance, 4)} QIE</div>}
                   </div>
                   <div className="rule-dashed" />
+                  {!qieId && onSetName && (
+                    <button
+                      onClick={() => {
+                        setMenuOpen(false);
+                        onSetName();
+                      }}
+                      className="flex items-center gap-2 text-sm hover:text-quill cursor-pointer"
+                    >
+                      <BadgeCheck className="w-4 h-4" /> Show my .qie name
+                    </button>
+                  )}
                   <Link href={`/u/${wallet.address}`} className="flex items-center gap-2 text-sm hover:text-quill" onClick={() => setMenuOpen(false)}>
                     <UserRound className="w-4 h-4" /> Public profile
                   </Link>
