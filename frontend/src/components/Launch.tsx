@@ -14,6 +14,7 @@ import { formatQie, formatUsd } from "@/lib/format";
 import { formatDuration } from "@/lib/pactTime";
 import { appUrl } from "@/lib/share";
 import { useNow } from "@/hooks/useNow";
+import { CampaignCountdown } from "./Countdown";
 import { usePactiqData } from "@/hooks/usePactiqData";
 import { useWallet } from "@/hooks/useWallet";
 import { Wordmark } from "./Header";
@@ -94,9 +95,15 @@ export default function Launch() {
               </span>
             </h1>
             <p className="mt-7 text-lg text-ink-2 max-w-xl leading-relaxed animate-rise [animation-delay:240ms]">
-              {formatQie(pot)} QIE for the first {c.winners} people who keep a {c.minStreak}-day streak on Pactiq. Sign a pact, check in
+              {formatQie(pot)} QIE for the first {c.winners} people who keep a {c.minStreak}-day streak on Pactiq. Sign a pact, check in{" "}
               {c.minStreak} days in a row, and claim {formatQie(c.reward)} QIE. Anyone can take part; the first {c.winners} to finish are paid.
             </p>
+            <CampaignCountdown
+              startsAt={c.startsAt}
+              endsAt={c.endsAt}
+              soldOut={claimed >= c.winners}
+              className="mt-8 animate-rise [animation-delay:300ms]"
+            />
             <div className="mt-8 flex flex-wrap gap-4 animate-rise [animation-delay:360ms]">
               <Link href="/app#new" className={btn("seal", "lg")}>
                 {phase === "before" ? "Get ready: sign a pact" : "Sign a pact"}

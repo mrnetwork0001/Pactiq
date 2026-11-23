@@ -21,6 +21,7 @@ import { Bounty } from "./SquadsTab";
 import { BadgeRow } from "./Badges";
 import { formatEther } from "viem";
 import { CAMPAIGN } from "@/lib/campaign";
+import { CampaignCountdown } from "./Countdown";
 import { Burger, Drawer, Kicker, btn, scrollToSection } from "./ui";
 
 const WIDE = "max-w-[calc(75vw_+_324px)] mx-auto px-4 sm:px-6";
@@ -117,6 +118,7 @@ export default function Landing() {
             <strong>{CAMPAIGN.name}:</strong> keep a {CAMPAIGN.minStreak}-day streak, and the first {CAMPAIGN.winners} to claim get{" "}
             <span className="num">{formatEther(CAMPAIGN.reward)}</span> QIE each.
           </span>
+          <CampaignCountdown startsAt={CAMPAIGN.startsAt} endsAt={CAMPAIGN.endsAt} variant="inline" className="text-ink-2" />
           <span className="font-semibold text-seal group-hover:underline">See how &rarr;</span>
         </Link>
         <Hero returning={returning} />
