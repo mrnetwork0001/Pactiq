@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pactiq logo options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#f2ede3; --card:#fbf8f2; --ink:#17140f; --ink2:#4b453b; --ink3:#847c6e; --rule:#d6ccb9; --seal:#d13c1f; --quill:#2a45a3; --kept:#1d6a46; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:"IBM Plex Sans",system-ui,sans-serif; }
+  main { max-width:1180px; margin:0 auto; padding:48px 24px 96px; }
+  h1 { font-family:Fraunces,Georgia,serif; font-size:52px; letter-spacing:-.02em; margin:0; }
+  .lead { color:var(--ink2); font-size:18px; max-width:720px; line-height:1.6; margin:14px 0 40px; }
+  .kick { font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink3); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(520px,1fr)); gap:28px; }
+  .opt { background:var(--card); border:1px solid var(--rule); border-radius:8px; overflow:hidden; box-shadow:0 12px 30px -18px rgba(23,20,15,.35); }
+  .head { display:flex; align-items:baseline; gap:12px; padding:18px 22px 0; }
+  .head b { font-family:Fraunces,serif; font-size:26px; }
+  .head i { font-family:Fraunces,serif; color:var(--seal); font-size:22px; }
+  .why { padding:6px 22px 16px; color:var(--ink2); font-size:14px; line-height:1.55; min-height:62px; }
+  .row { display:grid; grid-template-columns:1fr 1fr; }
+  .panel { padding:26px 22px; display:flex; flex-direction:column; gap:22px; align-items:flex-start; color:var(--ink); --bg:var(--paper); background:var(--paper); border-top:1px solid var(--rule); }
+  .panel.dark { color:var(--paper); --bg:var(--ink); background:var(--ink); }
+  .lock { display:flex; align-items:center; gap:12px; }
+  .word { font-family:Fraunces,serif; font-weight:700; font-size:34px; letter-spacing:-.02em; line-height:1; }
+  .word span { color:var(--seal); }
+  .sizes { display:flex; align-items:flex-end; gap:14px; }
+  svg { display:block; }
+  .note { margin-top:44px; color:var(--ink2); font-size:14px; line-height:1.6; max-width:760px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <!-- 1. Tally: four days kept, the fifth strikes them through -->
+    <symbol id="tally" viewBox="0 0 100 100">
+      <rect width="100" height="100" rx="23" fill="currentColor"/>
+      <g stroke="var(--bg)" stroke-width="7.5" stroke-linecap="round"><path d="M29 27v46M43 27v46M57 27v46M71 27v46"/></g>
+      <path d="M17 67 83 33" stroke="#d13c1f" stroke-width="8.5" stroke-linecap="round"/>
+    </symbol>
+    <!-- 2. Monogram: the wordmark's P and its red full stop -->
+    <symbol id="mono" viewBox="0 0 100 100">
+      <rect width="100" height="100" rx="23" fill="currentColor"/>
+      <text x="43" y="76" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="800" font-size="76" fill="var(--bg)">P</text>
+      <circle cx="76" cy="70" r="7.5" fill="#d13c1f"/>
+    </symbol>
+    <!-- 3. Kept: a P whose bowl closes into a tick -->
+    <symbol id="tick" viewBox="0 0 100 100">
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M30 86V18h22a21 21 0 0 1 0 42H30" stroke="currentColor" stroke-width="11"/>
+        <path d="M48 70 60 82 86 50" stroke="#d13c1f" stroke-width="11"/>
+      </g>
+    </symbol>
+    <!-- 4. Streak: seven days round the week, today in red -->
+    <symbol id="ring" viewBox="0 0 100 100">
+      <g fill="none" stroke-width="12" transform="rotate(-90 50 50)">
+        <circle cx="50" cy="50" r="36" stroke="currentColor" stroke-dasharray="24.3 8" stroke-dashoffset="-4"/>
+        <circle cx="50" cy="50" r="36" stroke="#d13c1f" stroke-dasharray="24.3 201.9" stroke-dashoffset="-4"/>
+      </g>
+      <path d="M37 51 46 60 64 40" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <!-- 5. Bond: you and your word, linked -->
+    <symbol id="bond" viewBox="0 0 100 100">
+      <g fill="none" stroke-width="11">
+        <circle cx="37" cy="50" r="24" stroke="currentColor"/>
+        <circle cx="63" cy="50" r="24" stroke="#d13c1f"/>
+        <path d="M58.6 61.2A24 24 0 0 1 41.2 73.6" stroke="currentColor"/>
+      </g>
+    </symbol>
+    <!-- 6. The pact: a signed sheet with its seal -->
+    <symbol id="sheet" viewBox="0 0 100 100">
+      <path d="M24 12h36l18 18v58H24z" fill="var(--bg)" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M60 12v18h18" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M36 46h30M36 59h20" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="62" cy="72" r="10" fill="#d13c1f"/>
+    </symbol>
+    <!-- 7. Signed: the X on the dotted line, and a signature -->
+    <symbol id="sign" viewBox="0 0 100 100">
+      <rect x="4" y="4" width="92" height="92" rx="21" fill="var(--bg)" stroke="currentColor" stroke-width="6"/>
+      <path d="M20 62 30 72M30 62 20 72" stroke="#d13c1f" stroke-width="6" stroke-linecap="round"/>
+      <path d="M38 73h44" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+      <path d="M40 66C44 38 52 24 60 26c7 2 2 20-10 30 10-8 20-10 22-4 1 5-6 9-10 8 6 1 12-2 18-8" fill="none" stroke="#2a45a3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+<main>
+  <div class="kick">Pactiq · identity</div>
+  <h1>Seven logo options</h1>
+  <p class="lead">Each one is shown as an app icon, next to the wordmark, on paper and on ink, and at the small sizes a browser tab and a phone home screen use. Tell me the number you like, or which two to combine.</p>
+  <div class="grid" id="grid"></div>
+  <p class="note">These are vector drawings, so the chosen one will be redrawn cleanly at every size (browser tab, phone icon, share card, soulbound badges) and the wordmark stays as it is unless you want that changed too.</p>
+</main>
+<script>
+  const options = [
+    ["tally", "Tally", "Four days kept, and the stroke that crosses them off. The oldest way people count a streak; reads instantly at any size."],
+    ["mono", "Monogram", "The P from the wordmark with its red full stop. The safest choice: it is simply the name, made into an icon."],
+    ["tick", "Kept", "A P whose bowl finishes as a tick. Says the name and the outcome (a day kept) in one shape."],
+    ["ring", "Streak", "Seven days around the week, with today in red and a tick in the middle. The product's core loop as a mark."],
+    ["bond", "Bond", "Two rings linked: you and your word. Also a quiet nod to the chain that holds the stake."],
+    ["sheet", "The pact", "A signed sheet with its seal. The most literal: this app is a contract with yourself."],
+    ["sign", "Signed", "The X on the dotted line with a signature across it. Carries the handwritten feel of the app's pact cards."],
+  ];
+  const use = (id, size) => `<svg width="${size}" height="${size}"><use href="#${id}"/></svg>`;
+  const panel = (id, dark) => `<div class="panel${dark ? " dark" : ""}">
+      ${use(id, 112)}
+      <div class="lock">${use(id, 44)}<span class="word">Pactiq<span>.</span></span></div>
+      <div class="sizes">${use(id, 64)}${use(id, 32)}${use(id, 20)}</div>
+    </div>`;
+  document.getElementById("grid").innerHTML = options.map(([id, name, why], i) => `
+    <section class="opt">
+      <div class="head"><i>${i + 1}.</i><b>${name}</b></div>
+      <div class="why">${why}</div>
+      <div class="row">${panel(id, false)}${panel(id, true)}</div>
+    </section>`).join("");
+</script>
+</body>
+</html>
