@@ -35,6 +35,63 @@ export function useQiedex() {
   return live;
 }
 
+const nameKey = (address: Address) => `pactiq:name:${address.toLowerCase()}`;
+const NAME_EVENT = "pactiq:name";
+
+/** Remember a .qie name this wallet has just been shown to hold, so the app can greet it by name. */
+export function rememberQieName(address: Address, name: string) {
+  try {
+    if (localStorage.getItem(nameKey(address)) === name) return;
+    localStorage.setItem(nameKey(address), name);
+    window.dispatchEvent(new Event(NAME_EVENT));
+  } catch {
+    /* storage unavailable: the name just isn't remembered */
+  }
+}
+
+/**
+ * The name to show for a connected wallet: the one on its pacts, else its primary name on QIE,
+ * else a name it proved it holds in this browser (checked again before use). Null means "show the address".
+ */
+export function useQieName(address: Address | null, profileName: string | null | undefined): string | null {
+  const [found, setFound] = useState<{ address: Address; name: string } | null>(null);
+  const [tick, setTick] = useState(0);
+
+  useEffect(() => {
+    const bump = () => setTick((n) => n + 1);
+    window.addEventListener(NAME_EVENT, bump);
+    return () => window.removeEventListener(NAME_EVENT, bump);
+  }, []);
+
+  useEffect(() => {
+    if (!address || profileName) return;
+    let on = true;
+    (async () => {
+      const primary = await primaryQieName(address);
+      if (primary) {
+        if (on) setFound({ address, name: primary });
+        return;
+      }
+      let saved: string | null = null;
+      try {
+        saved = localStorage.getItem(nameKey(address));
+      } catch {
+        /* ignore */
+      }
+      if (!saved) return;
+      const owned = await holdsQieName(address, saved);
+      if (owned && on) setFound({ address, name: saved });
+      else if (owned === false) localStorage.removeItem(nameKey(address)); // transferred away since
+    })();
+    return () => {
+      on = false;
+    };
+  }, [address, profileName, tick]);
+
+  if (!address) return null;
+  return profileName || (found?.address === address ? found.name : null);
+}
+
 /** "wallet": a name is typed but no wallet is connected to check it against. "error": the name service didn't answer. */
 export type QieIdState = "disabled" | "empty" | "wallet" | "checking" | "verified" | "unowned" | "error";
 
@@ -92,6 +149,11 @@ export function useQieId(address: Address | null, initial: string) {
               : result.owned
                 ? "verified"
                 : "unowned";
+
+  // A verified name is remembered for this wallet, so the header can show it without a pact.
+  useEffect(() => {
+    if (state === "verified" && address) rememberQieName(address, name);
+  }, [state, address, name]);
 
   return {
     value,
