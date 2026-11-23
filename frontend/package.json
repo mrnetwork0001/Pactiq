@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --test src/lib/server/verdict.test.ts",
+    "abi": "node scripts/export-abi.mjs",
+    "witness:eval": "node --no-warnings scripts/witness-eval.mjs",
+    "demo:local": "cd ../contracts && forge build && cd ../frontend && node scripts/seed-local.mjs"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",
@@ -16,7 +20,8 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "tailwind-merge": "^3.7.0",
-    "viem": "^2.57.19"
+    "viem": "^2.57.19",
+    "web-push": "^4.0.0"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "4.3.3",
@@ -24,6 +29,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/web-push": "^3.6.4",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
     "tailwindcss": "4.3.3",
