@@ -1,5 +1,5 @@
 import React from "react";
-import { Reveal } from "./Motion";
+import { Reveal, SectionMark } from "./Motion";
 
 const SOLIDITY = `import {IPactiqReputation} from "pactiq/IPactiqReputation.sol";
 
@@ -18,13 +18,16 @@ const HTTP = `GET /api/score/0xYourAddress?min=200
   "checkIns": 7, "completedPacts": 1, "badges": ["Week Warrior"] }`;
 
 /** Inverted section: Pactiq as a Proof-of-Human primitive for other QIE apps. */
-export function ForBuilders({ n = "V." }: { n?: string }) {
+export function ForBuilders({ n = 5 }: { n?: number }) {
   return (
     <section id="builders" className="bg-ink text-card mt-24 scroll-mt-16">
       <div className="max-w-[calc(50vw_+_600px)] mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <div className="grid lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-14 items-start">
           <Reveal>
-            <div className="kicker !text-seal">{n} For QIE builders</div>
+            <div className="flex items-center gap-3">
+              <SectionMark n={n} />
+              <div className="kicker !text-seal">For QIE builders</div>
+            </div>
             <h2 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight leading-[1.02] mt-3">
               Proof-of-Human,
               <br />

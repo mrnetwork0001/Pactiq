@@ -16,7 +16,7 @@ interface Integration {
 }
 
 /** Every QIE component Pactiq uses, each labelled for what it is. */
-export function BuiltOnQie({ n }: { n: string }) {
+export function BuiltOnQie({ n }: { n: number }) {
   const contract = (address: `0x${string}`) => ({ label: shortAddress(address), href: explorerAddress(address) });
 
   const items: Integration[] = [

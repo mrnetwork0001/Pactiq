@@ -15,7 +15,7 @@ import { Hero, StatsLedger } from "./HeroStats";
 import { HowItWorks } from "./HowItWorks";
 import { ForBuilders } from "./ForBuilders";
 import { BuiltOnQie } from "./BuiltOnQie";
-import { Marquee, Reveal, SectionHead } from "./Motion";
+import { Marquee, Reveal, SectionHead, SectionMark } from "./Motion";
 import { Footer } from "./Footer";
 import { Bounty } from "./SquadsTab";
 import { BadgeRow } from "./Badges";
@@ -85,7 +85,7 @@ export default function Landing() {
               scrollToSection(x.id);
             }}
           >
-            <span className="font-display italic text-seal w-8">{["I.", "II.", "III.", "IV.", "V."][i]}</span>
+            <SectionMark n={i + 1} small className="mr-1" />
             <span className="font-display text-lg">{x.label}</span>
           </a>
         ))}
@@ -112,7 +112,7 @@ export default function Landing() {
 
         {/* I. The problem and the fix */}
         <section id="why" className="mt-24 scroll-mt-24">
-          <SectionHead n="I." title="Why Pactiq" />
+          <SectionHead n={1} title="Why Pactiq" />
           <div className="grid lg:grid-cols-[1fr_1.3fr] gap-10 lg:gap-16">
             <Reveal as="p" className="font-display text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight">
               Free to quit <span className="italic font-normal text-ink-2">is the whole problem.</span>
@@ -136,14 +136,14 @@ export default function Landing() {
           </div>
         </section>
 
-        <HowItWorks n="II." />
+        <HowItWorks n={2} />
 
-        <BuiltOnQie n="III." />
+        <BuiltOnQie n={3} />
 
         {/* IV. Live from the chain */}
         <section id="record" className="mt-24 scroll-mt-24">
           <SectionHead
-            n="IV."
+            n={4}
             title="On the record"
             aside={
               <>
@@ -224,7 +224,7 @@ export default function Landing() {
         </Reveal>
       </main>
 
-      <ForBuilders n="V." />
+      <ForBuilders n={5} />
       <Footer />
     </div>
   );

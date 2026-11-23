@@ -20,7 +20,7 @@ const TERMS = [
   },
 ];
 
-export function HowItWorks({ n = "IV." }: { n?: string }) {
+export function HowItWorks({ n = 2 }: { n?: number }) {
   return (
     <section id="terms" className="mt-24 scroll-mt-24">
       <SectionHead n={n} title="The terms" aside="Four clauses, enforced by code" />
