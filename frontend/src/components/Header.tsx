@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Wallet, AlertTriangle, BadgeCheck, LogOut, ExternalLink, UserRound } from "lucide-react";
 import { activeChain, addChainParams, explorerAddress, QIE_WALLET_URL } from "@/lib/chain";
@@ -41,6 +41,29 @@ export const Header: React.FC<HeaderProps> = ({ wallet, qieId, onSetName, onConn
   const [drawer, setDrawer] = useState(false);
   const closeDrawer = useCallback(() => setDrawer(false), []);
 
+  // The wallet dropdowns close on a click anywhere outside them, and on Escape.
+  const walletBox = useRef<HTMLDivElement>(null);
+  const dropdownOpen = menuOpen || pickerOpen;
+  useEffect(() => {
+    if (!dropdownOpen) return;
+    const close = () => {
+      setMenuOpen(false);
+      setPickerOpen(false);
+    };
+    const onPointer = (e: PointerEvent) => {
+      if (!walletBox.current?.contains(e.target as Node)) close();
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [dropdownOpen]);
+
   const handleWalletClick = () => {
     if (wallet.address) return setMenuOpen((o) => !o);
     if (wallet.wallets.length > 1) return setPickerOpen((o) => !o);
@@ -60,7 +83,7 @@ export const Header: React.FC<HeaderProps> = ({ wallet, qieId, onSetName, onConn
               <span className="sm:hidden">New pact</span>
             </Button>
 
-            <div className="relative hidden md:block">
+            <div ref={walletBox} className="relative hidden md:block">
               <Button variant="outline" size="sm" onClick={handleWalletClick} disabled={wallet.connecting} className="sm:!px-3.5 sm:!py-2 sm:!text-sm">
                 <Wallet className="w-4 h-4" />
                 <span className="max-w-28 truncate">
