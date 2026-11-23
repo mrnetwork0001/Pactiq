@@ -1,274 +1,367 @@
 "use client";
 
-import React, { useState } from "react";
-import { Category, Pact, PactStatus } from "@/lib/types";
-import { X, Code, Dumbbell, BookOpen, Heart, Award, Shield, Sparkles, Loader2, ArrowRight } from "lucide-react";
+import React, { useEffect, useMemo, useState } from "react";
+import { zeroAddress, type Address } from "viem";
+import { Code, Dumbbell, BookOpen, Heart, Award, Loader2, HeartHandshake } from "lucide-react";
 import confetti from "canvas-confetti";
+import { Category, type AssetStats, type Charity } from "@/lib/types";
+import { formatQie } from "@/lib/format";
+import { formatAsset, parseAmount, QIE_ASSET, QUSDC_ASSET, usdHint, type AssetMeta } from "@/lib/assets";
+import { quotePactUsd } from "@/lib/pactiq";
+import { useQieId, useQiedex, useTokenBalance } from "@/hooks/useQie";
+import { QieIdField } from "./QieIdField";
+import { QiedexSwap } from "./QiedexSwap";
+import { GetQie } from "./GetQie";
+import { Button, CONFETTI, Clause, Notice, Row, Sheet } from "./ui";
+
+export interface CreatePactInput {
+  title: string;
+  category: Category;
+  totalDays: number;
+  qieId: string;
+  charity: Address;
+  /**
+   * "qie":   exact stake in QIE.
+   * "usd":   dollars per day paid in QIE, priced on-chain by the QIE Oracle; `value` includes a refundable buffer.
+   * "qusdc": stake in QUSDC, QIE's stablecoin (approve + create).
+   */
+  mode: "qie" | "usd" | "qusdc";
+  asset: Address;
+  dailyStake: bigint;
+  usdPerDay: bigint;
+  value: bigint;
+}
 
 interface CreatePactModalProps {
   isOpen: boolean;
-  userAddress: string | null;
-  userQieId: string;
+  address: Address | null;
+  balance: bigint | null;
+  /** QIE ledger: minimum and bonus pool. */
+  qie: Pick<AssetStats, "minStakePerDay" | "rewardPool">;
+  /** QUSDC ledger, when the vault accepts QUSDC. */
+  qusdc: AssetStats | null;
+  usdPrice?: number;
+  charities: Charity[];
+  defaultQieId: string;
   onClose: () => void;
-  onCreated: (newPact: Pact) => void;
+  onSubmit: (input: CreatePactInput, onStatus: (s: string) => void) => Promise<void>;
+  onSwap: (qusdcOut: bigint, qieIn: bigint, onStatus: (s: string) => void) => Promise<void>;
+  onConnect?: () => void;
 }
 
-export const CreatePactModal: React.FC<CreatePactModalProps> = ({
-  isOpen,
-  userAddress,
-  userQieId,
-  onClose,
-  onCreated,
-}) => {
-  if (!isOpen) return null;
+/** Outer shell: mounting the form only while open resets its state on every open. */
+export const CreatePactModal: React.FC<CreatePactModalProps> = (props) => {
+  if (!props.isOpen) return null;
+  return <CreatePactForm {...props} />;
+};
 
+export const CATEGORIES = [
+  { cat: Category.CODING, label: "Coding", icon: Code },
+  { cat: Category.FITNESS, label: "Fitness", icon: Dumbbell },
+  { cat: Category.LEARNING, label: "Learning", icon: BookOpen },
+  { cat: Category.MEDITATION, label: "Mindfulness", icon: Heart },
+  { cat: Category.CUSTOM, label: "Custom", icon: Award },
+];
+
+const DURATIONS = [7, 14, 21, 30];
+const PRESETS = { qie: ["1", "5", "10", "25"], usd: ["0.5", "1", "2", "5"], qusdc: ["0.5", "1", "2", "5"] } as const;
+const DEFAULT_AMOUNT = { qie: "5", usd: "1", qusdc: "1" } as const;
+const USD_BUFFER_BPS = 200n; // send 2% extra in case the price moves before the tx lands; refunded
+
+function CreatePactForm({
+  address,
+  balance,
+  qie,
+  qusdc,
+  usdPrice,
+  charities,
+  defaultQieId,
+  onClose,
+  onSubmit,
+  onSwap,
+  onConnect,
+}: CreatePactModalProps) {
+  const connected = !!address;
+  const qusdcOpen = !!qusdc && qusdc.minStakePerDay > 0n;
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState<Category>(Category.CODING);
   const [totalDays, setTotalDays] = useState<number>(14);
-  const [dailyStake, setDailyStake] = useState<number>(5);
-  const [qieId, setQieId] = useState(userQieId || "builder.qie");
-  const [isLoading, setIsLoading] = useState(false);
+  const [mode, setMode] = useState<"qie" | "usd" | "qusdc">("qie");
+  const [amount, setAmount] = useState<string>("5");
+  const qieId = useQieId(address, defaultQieId);
+  const [charity, setCharity] = useState<Address>(zeroAddress);
+  const [quote, setQuote] = useState<{ key: string; daily: bigint; total: bigint } | null>(null);
+  const [quoteError, setQuoteError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const qusdcBalance = useTokenBalance(qusdcOpen ? QUSDC_ASSET.address : null, address);
+  const qiedex = useQiedex();
 
-  const totalRequiredStake = (dailyStake * totalDays).toFixed(1);
-  const estimatedBonusYield = (Number(totalRequiredStake) * 0.15).toFixed(1);
-  const estimatedReturn = (Number(totalRequiredStake) + Number(estimatedBonusYield)).toFixed(1);
+  const asset: AssetMeta = mode === "qusdc" ? QUSDC_ASSET : QIE_ASSET;
+  const ledger = mode === "qusdc" && qusdc ? qusdc : qie;
+  const activeCharities = charities.filter((c) => c.active);
+  const parsedAmount = useMemo(() => (mode === "usd" ? parseAmount(amount, QIE_ASSET) : parseAmount(amount, asset)), [amount, asset, mode]);
+
+  // USD mode: ask the contract (QIE Oracle) what the stake is, debounced.
+  const quoteKey = `${parsedAmount}:${totalDays}`;
+  useEffect(() => {
+    if (mode !== "usd" || parsedAmount === 0n) return;
+    const t = setTimeout(() => {
+      quotePactUsd(parsedAmount, totalDays)
+        .then((q) => {
+          setQuote({ key: quoteKey, ...q });
+          setQuoteError(null);
+        })
+        .catch(() => setQuoteError("The QIE Oracle price is unavailable right now. Stake in QIE or QUSDC instead."));
+    }, 300);
+    return () => clearTimeout(t);
+  }, [mode, parsedAmount, totalDays, quoteKey]);
+
+  const liveQuote = mode === "usd" && quote?.key === quoteKey ? quote : null;
+  const daily = mode === "usd" ? (liveQuote?.daily ?? 0n) : parsedAmount;
+  const total = daily * BigInt(totalDays);
+  const sendValue = mode === "usd" ? total + (total * USD_BUFFER_BPS) / 10_000n : mode === "qie" ? total : 0n;
+  const maxBonus = (total * 1500n) / 10_000n;
+  const poolBonus = ledger.rewardPool < maxBonus ? ledger.rewardPool : maxBonus;
+  const charityName = activeCharities.find((c) => c.account === charity)?.name;
+  const qusdcShort = mode === "qusdc" && qusdcBalance.balance !== null && total > qusdcBalance.balance ? total - qusdcBalance.balance : 0n;
+
+  const validation = (() => {
+    if (!title.trim()) return "Name the habit you're committing to.";
+    if (new TextEncoder().encode(title.trim()).length > 80) return "The habit must be 80 characters or fewer.";
+    if (mode === "usd" && !liveQuote) return quoteError ?? "Asking the QIE Oracle for a price…";
+    if (daily < ledger.minStakePerDay) return `The minimum stake is ${formatAsset(ledger.minStakePerDay, asset, 4)} a day.`;
+    if (qieId.problem) return qieId.problem;
+    if (mode === "qusdc" && qusdcShort > 0n) return `You need ${formatAsset(qusdcShort, QUSDC_ASSET)} more. Swap on QIEDEX below.`;
+    if (balance !== null && sendValue > balance) return `You need ${formatQie(sendValue, 4)} QIE plus gas.`;
+    return null;
+  })();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim()) {
-      setErrorMessage("Please enter a title for your commitment.");
-      return;
-    }
-    if (!userAddress) {
-      setErrorMessage("Please connect your Web3 wallet first.");
-      return;
-    }
-
+    if (!connected) return onConnect ? onConnect() : setErrorMessage("Connect your wallet first.");
+    if (validation) return setErrorMessage(validation);
+    setErrorMessage(null);
+    setStatus("Confirm in your wallet…");
     try {
-      setIsLoading(true);
-      setErrorMessage(null);
-
-      // Simulate on-chain contract call: createPact{value: requiredStake}(...)
-      await new Promise((r) => setTimeout(r, 1400));
-
-      const newPact: Pact = {
-        id: Date.now(),
-        creator: userAddress,
-        title: title.trim(),
-        category,
-        dailyStake: dailyStake.toFixed(1),
-        totalDays,
-        checkInCount: 0,
-        currentDay: 1,
-        totalStaked: totalRequiredStake,
-        status: PactStatus.ACTIVE,
-        qieId: qieId || "user.qie",
-        startTime: Date.now(),
-        hasCheckedInToday: false,
-        history: Array.from({ length: totalDays }).map((_, i) => ({
-          day: i + 1,
-          checkedIn: false,
-        })),
-      };
-
-      confetti({
-        particleCount: 60,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ["#10B981", "#06B6D4"],
-      });
-
-      onCreated(newPact);
+      await onSubmit(
+        {
+          title: title.trim(),
+          category,
+          totalDays,
+          qieId: qieId.submitName,
+          charity,
+          mode,
+          asset: asset.address,
+          dailyStake: daily,
+          usdPerDay: mode === "usd" ? parsedAmount : 0n,
+          value: sendValue,
+        },
+        setStatus
+      );
+      confetti({ particleCount: 60, spread: 60, origin: { y: 0.6 }, colors: CONFETTI });
       onClose();
-    } catch (err: unknown) {
-      setErrorMessage(err instanceof Error ? err.message : "Error creating pact");
-    } finally {
-      setIsLoading(false);
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : "Could not create the pact.");
+      setStatus(null);
     }
   };
 
+  const busy = status !== null;
+  const presets: readonly string[] = PRESETS[mode];
+  const signer = qieId.submitName || "the undersigned";
+  const stakeText = mode === "qie" ? `${amount || "0"} QIE` : mode === "usd" ? `$${amount || "0"}` : `${amount || "0"} QUSDC`;
+  const modes = [
+    { id: "qie" as const, label: "In QIE" },
+    { id: "usd" as const, label: "In dollars, paid in QIE" },
+    ...(qusdcOpen ? [{ id: "qusdc" as const, label: "In QUSDC stablecoin" }] : []),
+  ];
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-      <div className="relative w-full max-w-lg bg-[#0E111A] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 text-gray-400 hover:text-white p-2 rounded-xl hover:bg-white/5 transition-all cursor-pointer"
-        >
-          <X className="w-5 h-5" />
-        </button>
-
-        {/* Modal Title */}
-        <div className="mb-6">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>New Commitment Vault</span>
+    <Sheet kicker="Draft · solo pact" title="Draft your pact" subtitle="Day 1 opens the moment your stake is locked." onClose={onClose} locked={busy}>
+      <form onSubmit={handleSubmit} className="space-y-7">
+        <Clause n={1} label="The habit">
+          <input
+            type="text"
+            maxLength={80}
+            placeholder="e.g. Ship one commit every day"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="field font-display text-lg"
+          />
+          <div className="flex flex-wrap gap-2 mt-3">
+            {CATEGORIES.map(({ cat, label, icon: Icon }) => (
+              <button key={cat} type="button" onClick={() => setCategory(cat)} data-active={category === cat} className="choice inline-flex items-center gap-1.5">
+                <Icon className="w-3.5 h-3.5" />
+                {label}
+              </button>
+            ))}
           </div>
-          <h2 className="text-2xl font-bold text-white">Initiate a Discipline Pact</h2>
-          <p className="text-sm text-gray-400 mt-1">
-            Stake QIE on your daily habit. Settle on QIE Mainnet.
-          </p>
-        </div>
+        </Clause>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Habit Title */}
-          <div>
-            <label className="block text-xs uppercase font-semibold text-gray-300 mb-2">
-              Habit / Goal Title
-            </label>
+        <Clause n={2} label="The term">
+          <div className="grid grid-cols-4 gap-2">
+            {DURATIONS.map((d) => (
+              <button key={d} type="button" onClick={() => setTotalDays(d)} data-active={totalDays === d} className="choice">
+                {d} days
+              </button>
+            ))}
+          </div>
+        </Clause>
+
+        <Clause n={3} label="The stake, per day">
+          <div className="flex flex-wrap items-center gap-1.5 mb-3 text-xs">
+            {modes.map((m) => (
+              <button
+                key={m.id}
+                type="button"
+                data-active={mode === m.id}
+                onClick={() => {
+                  setMode(m.id);
+                  setAmount(DEFAULT_AMOUNT[m.id]);
+                }}
+                className="choice !py-1 !px-2.5"
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+          <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
+            {presets.map((v) => (
+              <button key={v} type="button" onClick={() => setAmount(v)} data-active={amount === v} className="choice num">
+                {mode === "qie" ? v : `$${v}`}
+              </button>
+            ))}
             <input
-              type="text"
-              required
-              placeholder="e.g. 1-Hour Code Shipping & Commits"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-[#151A27] border border-white/10 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-emerald-500/50 transition-all"
+              type="number"
+              min="0.01"
+              step="0.01"
+              inputMode="decimal"
+              aria-label="Custom daily stake"
+              value={presets.includes(amount) ? "" : amount}
+              placeholder="Other"
+              onChange={(e) => setAmount(e.target.value)}
+              className="field !py-2 !px-2 text-center num text-sm col-span-4 sm:col-span-1"
             />
           </div>
-
-          {/* Category Selector */}
-          <div>
-            <label className="block text-xs uppercase font-semibold text-gray-300 mb-2">
-              Category
-            </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {[
-                { cat: Category.CODING, label: "Coding", icon: Code },
-                { cat: Category.FITNESS, label: "Fitness", icon: Dumbbell },
-                { cat: Category.LEARNING, label: "Learning", icon: BookOpen },
-                { cat: Category.MEDITATION, label: "Mindfulness", icon: Heart },
-                { cat: Category.CUSTOM, label: "Custom", icon: Award },
-              ].map((item) => {
-                const Icon = item.icon;
-                const isSelected = category === item.cat;
-                return (
-                  <button
-                    key={item.cat}
-                    type="button"
-                    onClick={() => setCategory(item.cat)}
-                    className={`flex items-center space-x-2 px-3 py-2.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${
-                      isSelected
-                        ? "bg-emerald-500/20 border-emerald-500 text-emerald-300"
-                        : "bg-[#151A27] border-white/5 text-gray-400 hover:border-white/20"
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    <span>{item.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Duration Selector */}
-          <div>
-            <label className="block text-xs uppercase font-semibold text-gray-300 mb-2">
-              Pact Duration
-            </label>
-            <div className="grid grid-cols-4 gap-2">
-              {[7, 14, 21, 30].map((days) => (
-                <button
-                  key={days}
-                  type="button"
-                  onClick={() => setTotalDays(days)}
-                  className={`py-2 px-2 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                    totalDays === days
-                      ? "bg-emerald-500/20 border-emerald-500 text-emerald-300"
-                      : "bg-[#151A27] border-white/5 text-gray-400 hover:border-white/20"
-                  }`}
-                >
-                  {days} Days
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Daily Stake Amount */}
-          <div>
-            <label className="block text-xs uppercase font-semibold text-gray-300 mb-2">
-              Daily Stake (QIE / Day)
-            </label>
-            <div className="grid grid-cols-4 gap-2 mb-2">
-              {[1, 5, 10, 25].map((stake) => (
-                <button
-                  key={stake}
-                  type="button"
-                  onClick={() => setDailyStake(stake)}
-                  className={`py-2 px-2 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                    dailyStake === stake
-                      ? "bg-cyan-500/20 border-cyan-500 text-cyan-300"
-                      : "bg-[#151A27] border-white/5 text-gray-400 hover:border-white/20"
-                  }`}
-                >
-                  {stake} QIE
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* QIE ID input */}
-          <div>
-            <label className="block text-xs uppercase font-semibold text-gray-300 mb-2">
-              Your QIE ID Handle
-            </label>
-            <input
-              type="text"
-              placeholder="e.g. satoshi.qie"
-              value={qieId}
-              onChange={(e) => setQieId(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-[#151A27] border border-white/10 text-white placeholder-gray-500 text-sm font-mono focus:outline-none focus:border-cyan-500/50 transition-all"
-            />
-          </div>
-
-          {/* Staking Summary Card */}
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-[#151A27] to-[#0A0D14] border border-white/10 space-y-2">
-            <div className="flex justify-between items-center text-xs">
-              <span className="text-gray-400">Total Upfront Stake:</span>
-              <span className="text-white font-bold font-mono">{totalRequiredStake} QIE</span>
-            </div>
-            <div className="flex justify-between items-center text-xs">
-              <span className="text-gray-400">Principal Return (100% Completion):</span>
-              <span className="text-emerald-400 font-bold font-mono">100% Refundable</span>
-            </div>
-            <div className="flex justify-between items-center text-xs">
-              <span className="text-gray-400">Est. Slash Pool Yield Bonus:</span>
-              <span className="text-amber-400 font-bold font-mono">+{estimatedBonusYield} QIE (+15%)</span>
-            </div>
-            <div className="pt-2 border-t border-white/5 flex justify-between items-center text-sm font-bold">
-              <span className="text-white">Est. Payout on Day {totalDays}:</span>
-              <span className="text-emerald-400 font-mono text-base">{estimatedReturn} QIE</span>
-            </div>
-          </div>
-
-          {/* Error display */}
-          {errorMessage && (
-            <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
-              {errorMessage}
+          {mode === "usd" && (
+            <p className="text-xs text-ink-2 mt-2">
+              {liveQuote
+                ? `≈ ${formatQie(liveQuote.daily, 4)} QIE a day, priced on-chain by the QIE Oracle when you sign.`
+                : (quoteError ?? "Asking the QIE Oracle for a price…")}
+            </p>
+          )}
+          {mode === "qusdc" && (
+            <p className="text-xs text-ink-2 mt-2">
+              QUSDC is QIE&apos;s USDC-backed stablecoin: your stake and refunds stay worth exactly what you put in.
+              {qusdcBalance.balance !== null && (
+                <span className="num text-ink-3"> You hold {formatAsset(qusdcBalance.balance, QUSDC_ASSET)}.</span>
+              )}
+            </p>
+          )}
+          {mode === "qusdc" && connected && qusdcShort > 0n && qiedex && (
+            <div className="mt-3">
+              <QiedexSwap
+                shortfall={qusdcShort}
+                qieBalance={balance}
+                onSwap={async (out, qieIn, onStatus) => {
+                  await onSwap(out, qieIn, onStatus);
+                  await qusdcBalance.refresh();
+                }}
+              />
             </div>
           )}
+          {/* Not enough QIE for the stake (or, staking QUSDC, none at all for the network fee): show the way in. */}
+          {connected && address && balance !== null && (mode === "qusdc" ? balance === 0n : sendValue > balance) && (
+            <div className="mt-3">
+              <GetQie compact address={address} needed={mode === "qusdc" || balance === 0n ? undefined : sendValue - balance} />
+            </div>
+          )}
+        </Clause>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-black font-extrabold text-sm transition-all flex items-center justify-center space-x-2 shadow-lg shadow-emerald-500/25 cursor-pointer disabled:opacity-50"
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Locking Stake on QIE Mainnet...</span>
-              </>
-            ) : (
-              <>
-                <Shield className="w-4 h-4 stroke-[2.5]" />
-                <span>Lock {totalRequiredStake} QIE & Launch Pact</span>
-                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-              </>
-            )}
-          </button>
-        </form>
-      </div>
-    </div>
+        <Clause n={4} label="If I miss a day, that day's stake goes to">
+          <div className="grid gap-2">
+            <button type="button" onClick={() => setCharity(zeroAddress)} data-active={charity === zeroAddress} className="choice text-left">
+              The bonus pool <span className="font-normal opacity-70">: paid to people who finish</span>
+            </button>
+            {activeCharities.map((c) => (
+              <button
+                key={c.account}
+                type="button"
+                onClick={() => setCharity(c.account)}
+                data-active={charity === c.account}
+                className="choice text-left inline-flex items-center gap-2"
+              >
+                <HeartHandshake className="w-4 h-4 shrink-0" />
+                <span>
+                  {c.name} <span className="font-normal opacity-70">: charity mode, 100% donated</span>
+                </span>
+              </button>
+            ))}
+          </div>
+        </Clause>
+
+        <Clause n={5} label="Your signature" hint="your QIE ID, verified on-chain">
+          <QieIdField id={qieId} />
+        </Clause>
+
+        <div className="border-2 border-ink rounded-md bg-paper/60">
+          <p className="font-display text-lg leading-relaxed px-5 pt-5">
+            I, <span className="font-sign text-quill text-2xl">{signer}</span>, pledge to{" "}
+            <em className="font-semibold">{title.trim() || "keep my habit"}</em> every day for <strong>{totalDays} days</strong>, staking{" "}
+            <strong>{stakeText}</strong> a day. Should I miss a day, that day&apos;s stake goes to <strong>{charityName ?? "the bonus pool"}</strong>.
+          </p>
+          <div className="px-5 py-4 mt-4 border-t border-rule space-y-1.5 text-sm">
+            <Row label="Locked today">
+              <span className="num font-semibold">
+                {formatAsset(total, asset, 4)}
+                {usdHint(total, asset, usdPrice) ? <span className="text-ink-3 font-normal"> ≈ {usdHint(total, asset, usdPrice)}</span> : null}
+              </span>
+            </Row>
+            <Row label="Refunded per verified day">
+              <span className="num">{formatAsset(daily, asset, 4)}</span>
+            </Row>
+            <Row label={"Completion bonus (up to 15%)"}>
+              <span className="num text-gold font-semibold">+{formatAsset(poolBonus, asset, 4)}</span>
+            </Row>
+            <Row label={<strong className="text-ink">If you keep every day</strong>}>
+              <span className="num text-kept font-bold">{formatAsset(total + poolBonus, asset, 4)}</span>
+            </Row>
+            <p className="text-xs text-ink-3 pt-2">
+              {charityName ? `Missed days are donated in full to ${charityName}.` : "Missed days: 95% to the bonus pool, 5% protocol fee."}
+              {mode === "usd" && " You send 2% extra in case the price moves; the unused part comes back in the same transaction."}
+              {mode === "qusdc" && " Two wallet steps: approve exactly this amount of QUSDC, then sign the pact."}
+            </p>
+          </div>
+        </div>
+
+        {errorMessage && <Notice>{errorMessage}</Notice>}
+
+        <Button type="submit" variant="seal" size="lg" className="w-full" disabled={busy}>
+          {busy ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              {status}
+            </>
+          ) : connected ? (
+            `Sign & lock ${formatAsset(total, asset, 4)}`
+          ) : (
+            "Connect wallet to sign"
+          )}
+        </Button>
+        <p className="text-xs text-ink-3 text-center">
+          Missed days are not refunded. By signing you accept the{" "}
+          <a href="/terms" target="_blank" rel="noreferrer" className="underline">
+            terms
+          </a>{" "}
+          and{" "}
+          <a href="/privacy" target="_blank" rel="noreferrer" className="underline">
+            privacy notice
+          </a>
+          .
+        </p>
+      </form>
+    </Sheet>
   );
-};
+}
+
