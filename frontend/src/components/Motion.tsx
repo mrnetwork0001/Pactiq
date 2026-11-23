@@ -124,13 +124,28 @@ export function CountUp({ text, ms = 1400 }: { text: string; ms?: number }) {
   );
 }
 
-/** Section heading set like a contract article; its rule draws itself in when the section arrives. */
-export function SectionHead({ n, title, aside }: { n: string; title: React.ReactNode; aside?: React.ReactNode }) {
+/**
+ * A section's number as a day stamp: the ringed mark a kept day gets on a pact. Each section of
+ * the page is stamped off in turn, and the stamp presses in when its section scrolls into view.
+ */
+export function SectionMark({ n, small = false, className = "" }: { n: number; small?: boolean; className?: string }) {
   return (
-    <Reveal className="relative flex items-baseline gap-3 pb-3 mb-8">
-      <span className="font-display italic text-seal text-2xl">{n}</span>
+    <span className={`section-mark ${small ? "section-mark-sm" : ""} ${n % 2 ? "" : "section-mark-alt"} ${className}`} aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 12.5l4.5 4.5L19 7.5" />
+      </svg>
+      <span>{String(n).padStart(2, "0")}</span>
+    </span>
+  );
+}
+
+/** Section heading set like a contract article; its rule draws itself in when the section arrives. */
+export function SectionHead({ n, title, aside }: { n: number; title: React.ReactNode; aside?: React.ReactNode }) {
+  return (
+    <Reveal className="relative flex items-center gap-3.5 pb-3 mb-8">
+      <SectionMark n={n} />
       <h2 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight">{title}</h2>
-      {aside ? <span className="kicker ml-auto hidden sm:flex items-center gap-2">{aside}</span> : null}
+      {aside ? <span className="kicker ml-auto self-end hidden sm:flex items-center gap-2">{aside}</span> : null}
       <span className="draw-rule absolute left-0 right-0 bottom-0 h-px bg-ink" />
     </Reveal>
   );
