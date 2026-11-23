@@ -11,8 +11,11 @@ Built for **QIE Blockchain Hackathon 3.0** · Track: **Consumer Apps & Social** 
 | | |
 |---|---|
 | Live demo | _add your deployment URL_ |
-| PactiqVault (QIE Mainnet, chain 1990) | _add address_ · [explorer](https://mainnet.qie.digital) |
-| PactiqBadges (soulbound ERC-721) | _add address_ |
+| PactiqVault (QIE Mainnet, chain 1990) | [`0xcc8cb1Ae278dbc5077A8c0aB7517F1278C84Be3B`](https://mainnet.qie.digital/address/0xcc8cb1Ae278dbc5077A8c0aB7517F1278C84Be3B) |
+| PactiqBadges (soulbound ERC-721) | [`0x94B80026A0087613927eC5104791A0d9334B31b1`](https://mainnet.qie.digital/address/0x94B80026A0087613927eC5104791A0d9334B31b1) |
+| PactiqRouter (swap attribution) | [`0x5302338570D5565bEf50bdEa64Ce992b54DF96C4`](https://mainnet.qie.digital/address/0x5302338570D5565bEf50bdEa64Ce992b54DF96C4) |
+| QieNameVerifier (QIE ID) | [`0xD4BB76117D5E3763e8750519D10F40d1eb1A5A02`](https://mainnet.qie.digital/address/0xD4BB76117D5E3763e8750519D10F40d1eb1A5A02) |
+| PactiqCampaign (launch campaign, 10 × 20 QIE) | [`0x06304d82ca0beEDd54B751D4f73F16A569D0Ce30`](https://mainnet.qie.digital/address/0x06304d82ca0beEDd54B751D4f73F16A569D0Ce30) |
 | Demo video | _add link_ |
 
 ---
@@ -119,14 +122,17 @@ contracts/                        Foundry (Shanghai EVM)
   src/PactiqBadges.sol            soulbound ERC-721 / ERC-5192 streak badges
   src/PactiqRouter.sol            QIEDEX swaps made in the app, attributed on-chain (PactiqSwap event, running totals)
   src/QieNameVerifier.sol         QIE ID: checks names against QIE's registries + reverse resolver
+  src/PactiqCampaign.sol          launch campaign: first N wallets with a verified streak claim a fixed QIE reward
   src/IPactiqReputation.sol       Proof-of-Human interface for integrators
   src/examples/HumanGatedAirdrop.sol
   test/PactiqVault.t.sol          32 core tests (incl. fuzzed fund conservation)
   test/PactiqFeatures.t.sol       17 tests: squads, sponsors, charity, USD, badges, score (+ squad fuzz)
   test/PactiqQie.t.sol            15 tests: QUSDC ledgers, QIE ID (+ mixed-asset fuzz)
   test/PactiqRouter.t.sol         7 tests: attribution, payouts, no funds or allowance left behind
+  test/PactiqCampaign.t.sol       8 tests: streak gate, window, first-come cap, funding, unclaimed recovery
   test/QieMainnetFork.t.sol       live mainnet: real .qie names, QIEDEX swap, QUSDC pact, router both ways
   script/DeployPactiq.s.sol       deploys + wires vault, badges, QIE ID verifier, QUSDC
+  script/DeployCampaign.s.sol     deploys the launch campaign against the live vault
   script/local/                   local-only shims for the demo seed (price feed, demo .qie names)
 frontend/                         Next.js 16 + React 19 + Tailwind 4 + viem
   scripts/seed-local.mjs          deploys to a local fork and replays ~9 days of demo activity
