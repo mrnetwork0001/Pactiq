@@ -108,7 +108,9 @@ export const PactCard: React.FC<PactCardProps> = ({
             <Button variant="ink" size="lg" className="w-full" onClick={() => onOpenCheckIn(pact, openDay)}>
               Present proof for day {openDay}
             </Button>
-            <p className="num text-[11px] text-center text-ink-3 mt-2">window closes in {formatDuration(dayWindow(pact, openDay).closesAt - now)}</p>
+            <p className="text-xs text-center text-ink-3 mt-2">
+              Check in within <span className="num text-ink-2">{formatDuration(dayWindow(pact, openDay).closesAt - now)}</span>, or day {openDay}&apos;s stake is forfeited.
+            </p>
           </div>
         )}
 
