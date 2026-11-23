@@ -1,292 +1,278 @@
 "use client";
 
-import React, { useState } from "react";
-import { Pact } from "@/lib/types";
-import { X, Camera, Upload, CheckCircle2, AlertCircle, Sparkles, Loader2, ShieldCheck, Zap } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Camera, CheckCircle2, AlertCircle, Loader2, ExternalLink, XCircle, RotateCcw } from "lucide-react";
 import confetti from "canvas-confetti";
+import { BigStamp, Button, CONFETTI, Kicker, Notice, Sheet, btn } from "./ui";
+import type { Address } from "viem";
+import { explorerTx } from "@/lib/chain";
+import { profileUrl } from "@/lib/share";
+import { ShareButtons } from "./ShareButtons";
+import type { ChallengeResponse, PactWithDays, VerifyProofResponse } from "@/lib/types";
 
 interface CheckInModalProps {
-  pact: Pact | null;
-  userAddress: string | null;
+  target: { pact: PactWithDays; day: number } | null;
+  userAddress: Address | null;
   onClose: () => void;
-  onSuccess: (pactId: number, dayIndex: number) => void;
+  onSubmit: (
+    pact: PactWithDays,
+    day: number,
+    proofHash: `0x${string}`,
+    signature: `0x${string}`,
+    onSubmitted: (hash: string) => void
+  ) => Promise<string>;
 }
 
-type VerificationStep = "IDLE" | "SCANNING" | "SIGNED" | "SUBMITTING" | "SUCCESS";
+export const CheckInModal: React.FC<CheckInModalProps> = ({ target, ...rest }) => {
+  if (!target) return null;
+  return <CheckInFlow key={`${target.pact.id}:${target.day}`} pact={target.pact} day={target.day} {...rest} />;
+};
 
-export const CheckInModal: React.FC<CheckInModalProps> = ({
+type Step = "LOADING" | "READY" | "VERIFYING" | "REJECTED" | "APPROVED" | "SIGNING" | "CONFIRMING" | "DONE";
+
+/** Downscale to ≤1280px JPEG so uploads are small and EXIF is stripped. */
+async function compressImage(file: File): Promise<string> {
+  const bitmap = await createImageBitmap(file);
+  const scale = Math.min(1, 1280 / Math.max(bitmap.width, bitmap.height));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(bitmap.width * scale);
+  canvas.height = Math.round(bitmap.height * scale);
+  canvas.getContext("2d")!.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  bitmap.close();
+  return canvas.toDataURL("image/jpeg", 0.85);
+}
+
+function CheckInFlow({
   pact,
+  day,
   userAddress,
   onClose,
-  onSuccess,
-}) => {
-  if (!pact) return null;
+  onSubmit,
+}: Omit<CheckInModalProps, "target"> & { pact: PactWithDays; day: number }) {
+  const [step, setStep] = useState<Step>("LOADING");
+  const [challenge, setChallenge] = useState<ChallengeResponse | null>(null);
+  const [image, setImage] = useState<string | null>(null);
+  const [verdict, setVerdict] = useState<VerifyProofResponse | null>(null);
+  const [txHash, setTxHash] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const [step, setStep] = useState<VerificationStep>("IDLE");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [dynamicCode] = useState<string>(() => Math.floor(100 + Math.random() * 900).toString());
-  const [statusLogs, setStatusLogs] = useState<string[]>([]);
-  const [oracleSignature, setOracleSignature] = useState<string | null>(null);
-  const [proofHash, setProofHash] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  useEffect(() => {
+    if (!userAddress) return;
+    const q = new URLSearchParams({ pactId: String(pact.id), dayIndex: String(day), userAddress });
+    fetch(`/api/challenge?${q}`)
+      .then(async (r) => {
+        const data = (await r.json()) as ChallengeResponse;
+        if (!r.ok) throw new Error(data.error || "Could not load today's challenge");
+        setChallenge(data);
+        setStep("READY");
+      })
+      .catch((e) => setError(e instanceof Error ? e.message : "Could not load today's challenge"));
+  }, [pact.id, day, userAddress]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setSelectedFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
-      setErrorMessage(null);
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setError(null);
+    try {
+      setImage(await compressImage(file));
+      setVerdict(null);
+      setStep("READY");
+    } catch {
+      setError("Couldn't read that image. Try a JPEG or PNG.");
     }
   };
 
-  const runVerification = async () => {
-    if (!userAddress) {
-      setErrorMessage("Please connect your Web3 wallet first.");
-      return;
-    }
-
+  const verify = async () => {
+    if (!image || !userAddress) return;
+    setStep("VERIFYING");
+    setError(null);
     try {
-      setStep("SCANNING");
-      setStatusLogs([
-        "Connecting to Multimodal AI Vision Oracle...",
-        "Scanning image metadata and timestamp validity...",
-      ]);
-
-      await new Promise((r) => setTimeout(r, 900));
-      setStatusLogs((prev) => [
-        ...prev,
-        `Verifying category alignment for '${pact.category}'...`,
-        `Analyzing dynamic challenge: Code #${dynamicCode} detected in frame.`,
-      ]);
-
-      await new Promise((r) => setTimeout(r, 900));
-
-      // Call our AI proof verification API
       const res = await fetch("/api/verify-proof", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          pactId: pact.id,
-          dayIndex: pact.currentDay,
-          category: pact.category,
-          userAddress: userAddress,
-          dynamicCode: dynamicCode,
-          fileName: selectedFile?.name || "live_camera_capture.jpg",
-          hasImage: !!selectedFile,
-        }),
+        body: JSON.stringify({ pactId: pact.id, dayIndex: day, userAddress, image }),
       });
-
-      const data = await res.json();
-
-      if (!res.ok || !data.verified) {
-        throw new Error(data.error || "AI verification failed anti-spoof check.");
-      }
-
-      setStatusLogs((prev) => [
-        ...prev,
-        `AI Attestation passed (Confidence: ${(data.confidence * 100).toFixed(1)}%).`,
-        "ECDSA Oracle signature generated for QIE Mainnet Chain ID: 5656.",
-      ]);
-
-      setOracleSignature(data.signature);
-      setProofHash(data.proofHash);
-      setStep("SIGNED");
-
-      // Auto-trigger on-chain settlement simulation or manual button
-    } catch (err: unknown) {
-      setStep("IDLE");
-      setErrorMessage(err instanceof Error ? err.message : "Verification error occurred");
+      const data = (await res.json()) as VerifyProofResponse;
+      if (!res.ok) throw new Error(data.error || "Verification failed");
+      setVerdict(data);
+      setStep(data.verified && data.signature ? "APPROVED" : "REJECTED");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Verification failed");
+      setStep("READY");
     }
   };
 
-  const handleOnChainCheckIn = async () => {
+  const submit = async () => {
+    if (!verdict?.proofHash || !verdict.signature) return;
+    setStep("SIGNING");
+    setError(null);
     try {
-      setStep("SUBMITTING");
-      setStatusLogs((prev) => [
-        ...prev,
-        `Broadcasting checkIn(pactId: ${pact.id}, day: ${pact.currentDay}) to QIE Mainnet RPC...`,
-      ]);
-
-      // Simulate on-chain confirmation delay
-      await new Promise((r) => setTimeout(r, 1400));
-
-      setStep("SUCCESS");
-      setStatusLogs((prev) => [
-        ...prev,
-        "Transaction Confirmed on QIE Mainnet!",
-        `Day ${pact.currentDay} logged. Streak extended!`,
-      ]);
-
-      // Fire celebratory confetti!
-      confetti({
-        particleCount: 80,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ["#10B981", "#06B6D4", "#F59E0B"],
+      const hash = await onSubmit(pact, day, verdict.proofHash, verdict.signature, (h) => {
+        setTxHash(h);
+        setStep("CONFIRMING");
       });
-
-      setTimeout(() => {
-        onSuccess(pact.id, pact.currentDay);
-        onClose();
-      }, 2000);
-    } catch (err: unknown) {
-      setStep("SIGNED");
-      setErrorMessage(err instanceof Error ? err.message : "On-chain transaction error");
+      setTxHash(hash);
+      setStep("DONE");
+      confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 }, colors: CONFETTI });
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Transaction failed");
+      setStep("APPROVED");
     }
   };
+
+  const shownError = userAddress ? error : "Connect your wallet first.";
+  const busy = step === "VERIFYING" || step === "SIGNING" || step === "CONFIRMING";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-      <div className="relative w-full max-w-lg bg-[#0E111A] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 text-gray-400 hover:text-white p-2 rounded-xl hover:bg-white/5 transition-all cursor-pointer"
-        >
-          <X className="w-5 h-5" />
-        </button>
-
-        {/* Header */}
-        <div className="mb-6">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-2">
-            <ShieldCheck className="w-4 h-4" />
-            <span>Anti-Bot Verification</span>
-          </div>
-          <h2 className="text-2xl font-bold text-white">
-            Daily Check-In: <span className="text-emerald-400">Day {pact.currentDay}</span>
-          </h2>
-          <p className="text-sm text-gray-400 mt-1">{pact.title}</p>
-        </div>
-
-        {/* Dynamic Anti-Spoof Challenge Box */}
-        <div className="p-4 rounded-2xl bg-[#151A27] border border-emerald-500/20 mb-6">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-xs uppercase font-bold text-emerald-400 tracking-wider flex items-center space-x-1">
-              <Zap className="w-3.5 h-3.5 fill-emerald-400" />
-              <span>Today&apos;s Dynamic Challenge</span>
-            </span>
-            <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
-              Code #{dynamicCode}
-            </span>
-          </div>
-          <p className="text-xs text-gray-300 leading-relaxed">
-            Take a live photo of your {pact.category.toLowerCase()} activity showing dynamic code{" "}
-            <span className="text-white font-mono font-bold">#{dynamicCode}</span> written on paper
-            or hold up <span className="text-emerald-400 font-bold">2 fingers (✌️)</span>.
-          </p>
-        </div>
-
-        {/* Media Upload / Preview */}
-        <div className="mb-6">
-          {previewUrl ? (
-            <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-black max-h-56 flex items-center justify-center group">
-              <img
-                src={previewUrl}
-                alt="Proof Preview"
-                className="w-full h-full object-cover max-h-56"
-              />
-              {step === "IDLE" && (
-                <button
-                  onClick={() => {
-                    setSelectedFile(null);
-                    setPreviewUrl(null);
-                  }}
-                  className="absolute top-3 right-3 p-1.5 rounded-full bg-black/70 text-white hover:bg-black transition-all"
-                >
-                  <X className="w-4 h-4" />
-                </button>
+    <Sheet
+      kicker={`Day ${day} of ${pact.totalDays} · Pact Nº ${String(pact.id).padStart(4, "0")}`}
+      title={pact.title}
+      subtitle="Present today's proof. An AI witness checks it before the chain records it."
+      onClose={onClose}
+      locked={busy}
+    >
+      <div className="space-y-6">
+        <div className="relative border-2 border-ink rounded-md bg-paper/60 overflow-hidden">
+          <div className="perforated h-2.5 absolute top-0 inset-x-0" />
+          <div className="px-5 pt-6 pb-5 flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="shrink-0">
+              <Kicker className="!text-seal">Today&apos;s code</Kicker>
+              {challenge ? (
+                <div className="num text-5xl font-semibold tracking-[0.25em] mt-1">{challenge.code}</div>
+              ) : (
+                !shownError && <Loader2 className="w-6 h-6 animate-spin mt-3 text-ink-3" />
               )}
             </div>
-          ) : (
-            <label className="border-2 border-dashed border-white/10 hover:border-emerald-500/40 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all bg-[#151A27]/40 hover:bg-[#151A27]/80">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-3">
-                <Camera className="w-6 h-6" />
+            <p className="text-sm text-ink-2 leading-relaxed sm:border-l sm:border-dashed sm:border-rule sm:pl-4">
+              {challenge?.instruction ?? "Fetching your one-time code for today…"}
+            </p>
+          </div>
+        </div>
+
+        {step !== "LOADING" && (
+          <div>
+            {image ? (
+              <div className="relative rounded-md overflow-hidden border border-rule bg-paper-2 flex items-center justify-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={image} alt="Your proof photo" className={`w-full object-contain max-h-72 ${step === "DONE" ? "opacity-80" : ""}`} />
+                {!busy && step !== "APPROVED" && step !== "DONE" && (
+                  <label className={btn("outline", "sm", "absolute bottom-3 right-3")}>
+                    Retake
+                    <input type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFile} />
+                  </label>
+                )}
+                {step === "DONE" && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <BigStamp text="Verified" className="text-5xl bg-card/60" />
+                  </div>
+                )}
               </div>
-              <span className="text-sm font-semibold text-white">Snap or Upload Proof Photo</span>
-              <span className="text-xs text-gray-400 mt-1">
-                JPEG, PNG or live mobile capture
+            ) : (
+              <label className="border-2 border-dashed border-ink-3 hover:border-ink rounded-md px-6 py-10 flex flex-col items-center justify-center cursor-pointer transition-colors text-center">
+                <Camera className="w-8 h-8 text-seal mb-3" />
+                <span className="font-display text-xl font-semibold">Photograph your proof</span>
+                <span className="text-sm text-ink-2 mt-1">The code must be clearly readable next to the activity.</span>
+                <input type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFile} />
+              </label>
+            )}
+          </div>
+        )}
+
+        {verdict && (
+          <div className={`border-l-4 pl-4 py-1 ${verdict.verified ? "border-kept" : "border-seal"}`}>
+            <div className="flex items-baseline justify-between gap-3">
+              <Kicker className={verdict.verified ? "!text-kept" : "!text-seal"}>Witness report · {verdict.verified ? "approved" : "rejected"}</Kicker>
+              <span className="num text-[11px] text-ink-3">
+                {verdict.verifier === "demo" ? "demo verifier" : `confidence ${(verdict.confidence * 100).toFixed(0)}%`}
               </span>
-              <input
-                type="file"
-                accept="image/*"
-                capture="environment"
-                className="hidden"
-                onChange={handleFileChange}
+            </div>
+            <ul className="mt-2 space-y-1 text-sm">
+              <Check ok={verdict.checks.codeVisible} label="Today's code is visible" />
+              <Check ok={verdict.checks.activityMatches} label="The activity matches the pact" />
+              <Check ok={verdict.checks.appearsAuthentic} label="The photo looks authentic" />
+            </ul>
+            {verdict.reasoning && <p className="font-display italic text-ink-2 mt-3 leading-relaxed">&ldquo;{verdict.reasoning}&rdquo;</p>}
+            {!verdict.verified && (
+              <p className="text-xs text-ink-3 mt-2">
+                {verdict.attemptsLeft} attempt{verdict.attemptsLeft === 1 ? "" : "s"} left today.
+              </p>
+            )}
+          </div>
+        )}
+
+        {shownError && (
+          <Notice>
+            <span className="inline-flex items-center gap-1.5">
+              <AlertCircle className="w-4 h-4 shrink-0" /> {shownError}
+            </span>
+          </Notice>
+        )}
+
+        {(step === "READY" || step === "REJECTED") && (
+          <Button
+            variant="ink"
+            size="lg"
+            className="w-full"
+            onClick={verify}
+            disabled={!image || !challenge || (step === "REJECTED" && verdict?.attemptsLeft === 0)}
+          >
+            {step === "REJECTED" ? <RotateCcw className="w-4 h-4" /> : null}
+            {step === "REJECTED" ? "Retake the photo, then ask again" : "Ask the AI witness"}
+          </Button>
+        )}
+
+        {step === "VERIFYING" && <StatusBar text="The witness is examining your photo…" />}
+
+        {step === "APPROVED" && (
+          <Button variant="seal" size="lg" className="w-full" onClick={submit}>
+            Stamp day {day} on QIE
+          </Button>
+        )}
+
+        {step === "SIGNING" && <StatusBar text="Confirm the transaction in your wallet…" />}
+        {step === "CONFIRMING" && <StatusBar text="Waiting for QIE to confirm…" />}
+
+        {step === "DONE" && (
+          <div className="space-y-4">
+            <p className="font-display text-xl text-center">
+              Day {day} is on the record. <span className="italic text-ink-2">See you tomorrow.</span>
+            </p>
+            {userAddress && (
+              <ShareButtons
+                text={`Day ${day}/${pact.totalDays} of "${pact.title}" kept. AI-verified and staked on QIE with Pactiq.`}
+                url={profileUrl(userAddress)}
               />
-            </label>
-          )}
-        </div>
-
-        {/* AI Scanner Terminal Logs */}
-        {statusLogs.length > 0 && (
-          <div className="p-3.5 rounded-xl bg-black/50 border border-white/10 font-mono text-[11px] text-gray-300 space-y-1 mb-6 max-h-32 overflow-y-auto">
-            {statusLogs.map((log, index) => (
-              <div key={index} className="flex items-center space-x-1.5 text-emerald-400/90">
-                <span className="text-gray-500">›</span>
-                <span>{log}</span>
-              </div>
-            ))}
+            )}
+            <Button variant="outline" className="w-full" onClick={onClose}>
+              Close
+            </Button>
           </div>
         )}
 
-        {/* Error message */}
-        {errorMessage && (
-          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-center space-x-2 mb-4">
-            <AlertCircle className="w-4 h-4 shrink-0" />
-            <span>{errorMessage}</span>
-          </div>
+        {txHash && (
+          <a href={explorerTx(txHash)} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-1.5 text-xs text-quill hover:underline">
+            <ExternalLink className="w-3.5 h-3.5" /> View transaction
+          </a>
         )}
-
-        {/* Action Controls */}
-        <div>
-          {step === "IDLE" && (
-            <button
-              onClick={runVerification}
-              disabled={!selectedFile}
-              className={`w-full py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center space-x-2 cursor-pointer ${
-                selectedFile
-                  ? "bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-black shadow-lg shadow-emerald-500/20"
-                  : "bg-white/5 text-gray-500 cursor-not-allowed"
-              }`}
-            >
-              <Sparkles className="w-4 h-4" />
-              <span>Verify Proof with AI Vision</span>
-            </button>
-          )}
-
-          {step === "SCANNING" && (
-            <div className="w-full py-3 px-4 rounded-xl bg-[#151A27] border border-emerald-500/30 text-emerald-400 font-semibold text-sm flex items-center justify-center space-x-2">
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Multimodal AI Vision Analyzing Proof...</span>
-            </div>
-          )}
-
-          {step === "SIGNED" && (
-            <button
-              onClick={handleOnChainCheckIn}
-              className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-black font-bold text-sm transition-all flex items-center justify-center space-x-2 shadow-lg shadow-emerald-500/25 cursor-pointer"
-            >
-              <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
-              <span>Submit Attestation to QIE Mainnet (Chain 5656)</span>
-            </button>
-          )}
-
-          {step === "SUBMITTING" && (
-            <div className="w-full py-3 px-4 rounded-xl bg-[#151A27] border border-cyan-500/30 text-cyan-400 font-semibold text-sm flex items-center justify-center space-x-2">
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Signing Transaction on QIE Mainnet...</span>
-            </div>
-          )}
-
-          {step === "SUCCESS" && (
-            <div className="w-full py-3 px-4 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold text-sm flex items-center justify-center space-x-2">
-              <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-              <span>Check-In Verified on QIE Mainnet!</span>
-            </div>
-          )}
-        </div>
       </div>
+    </Sheet>
+  );
+}
+
+function Check({ ok, label }: { ok: boolean; label: string }) {
+  return (
+    <li className={`flex items-center gap-2 ${ok ? "text-ink" : "text-seal"}`}>
+      {ok ? <CheckCircle2 className="w-4 h-4 text-kept shrink-0" /> : <XCircle className="w-4 h-4 shrink-0" />}
+      {label}
+    </li>
+  );
+}
+
+function StatusBar({ text }: { text: string }) {
+  return (
+    <div className="w-full py-3.5 px-4 rounded-md border-2 border-dashed border-ink text-sm font-semibold flex items-center justify-center gap-2">
+      <Loader2 className="w-4 h-4 animate-spin" />
+      {text}
     </div>
   );
-};
+}
