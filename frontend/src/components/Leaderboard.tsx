@@ -37,12 +37,19 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ entries, recent, me, l
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-ink">
-                  {["Nº", "Signatory", "Score", "Best streak", "Days kept", "Pacts kept", "Bonus won"].map((h, i) => (
+                  {[["Nº"], ["Signatory"], ["Score"], ["Best streak", "Streak"], ["Days kept"], ["Pacts kept"], ["Bonus won", "Bonus"]].map(([h, short], i) => (
                     <th
                       key={h}
-                      className={`kicker !text-[10px] py-2.5 font-normal ${i === 0 ? "pl-1 w-12" : ""} ${i >= 4 && i <= 5 ? "hidden sm:table-cell" : ""} ${i === 6 ? "text-right pr-1" : ""}`}
+                      className={`kicker !text-[10px] py-2.5 font-normal whitespace-nowrap ${i === 0 ? "pl-1 pr-3 w-10" : ""} ${i >= 2 && i <= 5 ? "pr-3 sm:pr-5" : ""} ${i >= 4 && i <= 5 ? "hidden sm:table-cell" : ""} ${i === 6 ? "text-right pr-1" : ""}`}
                     >
-                      {h}
+                      {short ? (
+                        <>
+                          <span className="sm:hidden">{short}</span>
+                          <span className="max-sm:hidden">{h}</span>
+                        </>
+                      ) : (
+                        h
+                      )}
                     </th>
                   ))}
                 </tr>
@@ -52,28 +59,30 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ entries, recent, me, l
                   const isMe = !!me && u.address.toLowerCase() === me.toLowerCase();
                   return (
                     <tr key={u.address} className={`hover:bg-card ${isMe ? "bg-seal/5" : ""}`}>
-                      <td className="py-4 pl-1 align-middle">
+                      <td className="py-4 pl-1 pr-3 align-middle">
                         <span className={`font-display text-2xl ${i < 3 ? "text-seal font-semibold" : "text-ink-3"}`}>{i + 1}</span>
                       </td>
-                      <td className="py-4 pr-3">
-                        <div className="flex items-center gap-2">
+                      <td className="py-4 pr-3 sm:pr-4 max-w-0 w-full">
+                        <div className="flex items-center gap-2 min-w-0">
                           <Link href={`/u/${u.address}`} className="font-semibold hover:text-quill hover:underline truncate">
                             {u.qieId || shortAddress(u.address)}
                           </Link>
                           {isMe && <span className="kicker !text-seal !text-[10px]">You</span>}
                           <BadgeRow mask={u.badges} size={22} />
                         </div>
-                        <a href={explorerAddress(u.address)} target="_blank" rel="noreferrer" className="num text-[11px] text-ink-3 hover:text-quill">
-                          {shortAddress(u.address)}
-                        </a>
+                        {u.qieId && (
+                          <a href={explorerAddress(u.address)} target="_blank" rel="noreferrer" className="num text-[11px] text-ink-3 hover:text-quill">
+                            {shortAddress(u.address)}
+                          </a>
+                        )}
                       </td>
-                      <td className="py-4 num text-lg font-semibold">{u.score}</td>
-                      <td className="py-4 num">
+                      <td className="py-4 pr-3 sm:pr-5 num text-lg font-semibold">{u.score}</td>
+                      <td className="py-4 pr-3 sm:pr-5 num whitespace-nowrap">
                         <span className="text-seal">{u.bestStreak}d</span>
                         {u.streak > 0 && <span className="block kicker !text-[10px]">live {u.streak}d</span>}
                       </td>
-                      <td className="py-4 num hidden sm:table-cell text-ink-2">{u.checkIns}</td>
-                      <td className="py-4 num hidden sm:table-cell text-ink-2">{u.completed}</td>
+                      <td className="py-4 pr-3 sm:pr-5 num hidden sm:table-cell text-ink-2">{u.checkIns}</td>
+                      <td className="py-4 pr-3 sm:pr-5 num hidden sm:table-cell text-ink-2">{u.completed}</td>
                       <td className="py-4 text-right pr-1 num text-gold font-semibold">
                         {u.rewardsEarned.qie > 0n || u.rewardsEarned.qusdc > 0n ? (
                           <>
