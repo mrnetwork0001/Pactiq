@@ -13,6 +13,9 @@ import {
 } from "@/lib/server/verifier";
 import type { VerifyProofResponse } from "@/lib/types";
 
+// The AI witness can take a while on a busy model; give the function room so a slow verdict is not cut off.
+export const maxDuration = 60;
+
 const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
 const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
 
