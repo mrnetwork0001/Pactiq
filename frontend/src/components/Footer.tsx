@@ -33,6 +33,7 @@ const COLUMNS: { title: string; items: Item[] }[] = [
       { label: "Swap QIE and QUSDC", href: "/app#swap" },
       { label: "Squads & challenges", href: "/app#squads" },
       { label: "The register", href: "/app#register" },
+      { label: "Launch campaign", note: "200 QIE", href: "/launch" },
     ],
   },
   {

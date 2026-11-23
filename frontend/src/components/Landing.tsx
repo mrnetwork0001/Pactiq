@@ -19,6 +19,8 @@ import { Marquee, Reveal, SectionHead, SectionMark } from "./Motion";
 import { Footer } from "./Footer";
 import { Bounty } from "./SquadsTab";
 import { BadgeRow } from "./Badges";
+import { formatEther } from "viem";
+import { CAMPAIGN } from "@/lib/campaign";
 import { Burger, Drawer, Kicker, btn, scrollToSection } from "./ui";
 
 const WIDE = "max-w-[calc(75vw_+_324px)] mx-auto px-4 sm:px-6";
@@ -89,6 +91,10 @@ export default function Landing() {
             <span className="font-display text-lg">{x.label}</span>
           </a>
         ))}
+        <Kicker className="mt-6 mb-1">Launch campaign</Kicker>
+        <Link href="/launch" className="drawer-item" onClick={closeMenu}>
+          {CAMPAIGN.name}
+        </Link>
         <Kicker className="mt-6 mb-1">In the app</Kicker>
         <Link href="/app#squads" className="drawer-item" onClick={closeMenu}>
           Squads &amp; challenges
@@ -102,6 +108,17 @@ export default function Landing() {
         <noscript>
           <style>{".reveal{opacity:1;translate:none}"}</style>
         </noscript>
+        <Link
+          href="/launch"
+          className="group mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border border-seal/40 bg-seal/5 rounded-md px-4 py-2.5 text-sm text-center hover:bg-seal/10 transition-colors"
+        >
+          <span className="kicker !text-seal">Launch campaign</span>
+          <span>
+            <strong>{CAMPAIGN.name}:</strong> keep a {CAMPAIGN.minStreak}-day streak, and the first {CAMPAIGN.winners} to claim get{" "}
+            <span className="num">{formatEther(CAMPAIGN.reward)}</span> QIE each.
+          </span>
+          <span className="font-semibold text-seal group-hover:underline">See how &rarr;</span>
+        </Link>
         <Hero returning={returning} />
 
         <Ticker pacts={data.recentPacts} />
