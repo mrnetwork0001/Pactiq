@@ -4,9 +4,9 @@
 
 Pactiq is a habit-staking app on QIE Mainnet. You lock QIE or QUSDC (QIE's dollar stablecoin) on a habit for 3 to 100 days. Each day you photograph yourself doing it next to a one-time code, an AI vision model judges the photo, and the check-in is written on-chain. Everything is measured by one number: **verified days kept**. A kept day is refunded, a missed day is forfeited, and a wallet's kept days become a public Proof-of-Human score any other QIE app can read.
 
-Built for QIE Blockchain Hackathon 3.0 · Track: Consumer Apps & Social · App: `<LIVE_URL>` (not hosted yet, see [Run it locally](#run-it-locally)) · Demo: `<VIDEO_URL>` · Code: [github.com/mrnetwork0001/Pactiq](https://github.com/mrnetwork0001/Pactiq) (public)
+Built for QIE Blockchain Hackathon 3.0 · Track: Consumer Apps & Social · App: [usepactiq.vercel.app](https://usepactiq.vercel.app) · Demo: `<VIDEO_URL>` · Code: [github.com/mrnetwork0001/Pactiq](https://github.com/mrnetwork0001/Pactiq) (public)
 
-**Judges, start here:** the landing page `/` reads live numbers straight from the vault with no wallet, and `/launch` shows the launch campaign's contract state. To see a full pact lifecycle (stake, daily check-ins, settlement, badges) without spending anything, run the [one-command demo](#run-it-locally), which replays about 9 days of activity on a local fork of QIE Mainnet. All five contracts are source-verified on the QIE explorer: start with the vault, [`0xcc8c…Be3B`](https://mainnet.qie.digital/address/0xcc8cb1Ae278dbc5077A8c0aB7517F1278C84Be3B).
+**Judges, start here:** [usepactiq.vercel.app](https://usepactiq.vercel.app) reads live numbers straight from the vault with no wallet, and [/launch](https://usepactiq.vercel.app/launch) shows the launch campaign's contract state. To see a full pact lifecycle (stake, daily check-ins, settlement, badges) without spending anything, run the [one-command demo](#run-it-locally), which replays about 9 days of activity on a local fork of QIE Mainnet. All five contracts are source-verified on the QIE explorer: start with the vault, [`0xcc8c…Be3B`](https://mainnet.qie.digital/address/0xcc8cb1Ae278dbc5077A8c0aB7517F1278C84Be3B).
 
 ---
 
@@ -294,15 +294,14 @@ Read from the chain on Nov 23 2026: 5 pacts, 1 squad, 2.29 QIE and 0.70 QUSDC in
 
 | Real | Simulated, or not live yet |
 | --- | --- |
-| Five contracts deployed and source-verified on QIE Mainnet (chain 1990) | The app is not hosted yet: there is no public URL, and the demo video link is a placeholder |
+| Five contracts deployed and source-verified on QIE Mainnet (chain 1990) | The demo video link is a placeholder |
 | Stakes in QIE and QUSDC held by the vault, and the 50 QIE bonus pool | The local demo chain: a fork of mainnet with about 9 days of replayed activity and a verifier that approves any photo |
 | Dollar pacts priced by the QIE Oracle inside the transaction | The pact card in the landing page hero (marked "Specimen") is an illustration |
 | QIE ⇄ QUSDC swaps on QIEDEX, attributed through `PactiqRouter` | The bonus shown before settlement is an estimate at today's pool size |
 | `.qie` names checked against QIE's registries | No verified check-in, settlement or badge exists on mainnet yet (Nov 23 2026) |
 | AI verdicts from a real vision model on the 0G Compute Router | The AI witness has not yet been scored on a set of real check-in photos (`pnpm witness:eval` exists for that) |
-| The landing page's totals, ticker, squads and register, read from the chain | Push reminders are built and tested locally, not yet delivered from a hosted deployment |
+| The hosted app at [usepactiq.vercel.app](https://usepactiq.vercel.app), with totals, ticker, squads and register read from the chain | Push reminders are built and tested locally, not yet delivered from a hosted deployment |
 | The launch campaign contract and its immutable terms | The campaign holds 0 QIE until its 200 QIE prize is deposited; the page says "Not deposited yet" |
-| | Badge metadata: the badges contract's base URI is still a placeholder until the app has a public URL |
 | | No charity is listed on mainnet |
 
 ## Tech stack
