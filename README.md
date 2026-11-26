@@ -8,6 +8,12 @@ Built for QIE Blockchain Hackathon 3.0 · Track: Consumer Apps & Social · App: 
 
 **Judges, start here:** [usepactiq.vercel.app](https://usepactiq.vercel.app) reads live numbers straight from the vault with no wallet, and [/launch](https://usepactiq.vercel.app/launch) shows the launch campaign's contract state. To see a full pact lifecycle (stake, daily check-ins, settlement, badges) without spending anything, run the [one-command demo](#run-it-locally), which replays about 9 days of activity on a local fork of QIE Mainnet. All five contracts are source-verified on the QIE explorer: start with the vault, [`0xcc8c…Be3B`](https://mainnet.qie.digital/address/0xcc8cb1Ae278dbc5077A8c0aB7517F1278C84Be3B).
 
+![The Pactiq landing page on QIE Mainnet](docs/screenshots/home.png)
+
+![The launch campaign page, read from the campaign contract](docs/screenshots/launch.png)
+
+<sub>Screenshots of the live app, taken Nov 26 2026. The pact card on the landing page is a specimen.</sub>
+
 ---
 
 ## Four steps, and what you can see with no wallet
