@@ -307,7 +307,7 @@ Read from the chain on Nov 26 2026 (unchanged since Nov 23): 5 pacts, 1 squad, 2
 | `.qie` names checked against QIE's registries | No verified check-in, settlement or badge exists on mainnet yet (Nov 26 2026) |
 | AI verdicts from a real vision model on the 0G Compute Router | The AI witness has not yet been scored on a set of real check-in photos (`pnpm witness:eval` exists for that) |
 | The hosted app at [usepactiq.vercel.app](https://usepactiq.vercel.app), with totals, ticker, squads and register read from the chain | Push reminders are built and tested locally, not yet delivered from a hosted deployment |
-| The launch campaign contract and its immutable terms | The campaign holds 0 QIE until its 200 QIE prize is deposited; the page says "Not deposited yet" |
+| The launch campaign contract and its immutable terms, funded with 204 QIE on Nov 26 2026 ([transaction](https://mainnet.qie.digital/tx/0xf9b1b328de01e61442c6e87f4dd4395f3cf45f190f096e73befcc8766dcb88ed)) | |
 | | No charity is listed on mainnet |
 
 ## Tech stack
@@ -406,7 +406,7 @@ cd ../frontend && pnpm lint && pnpm test && pnpm build             # verdict rul
    ```
 4. **Host the frontend** (for example Vercel, root directory `frontend`). Set the variables from the table above; set the `NEXT_PUBLIC_*` ones before building, because they are inlined at build time. Add an Upstash Redis database so rate limits and subscribers survive between requests.
 5. **Reminders.** In the GitHub repository, set the secrets `PACTIQ_APP_URL` and `PACTIQ_CRON_SECRET`. The workflow then calls the cron route hourly. On iPhone, web push works only after the site is added to the home screen.
-6. **After hosting.** Point the badges at the real URL with `setBaseURI`, optionally list a charity with `setCharity`, and deposit the campaign's 200 QIE with a plain transfer to its address.
+6. **After hosting.** Point the badges at the real URL with `setBaseURI`, optionally list a charity with `setCharity`. The campaign was funded with a plain transfer to its address (204 QIE, Nov 26 2026).
 7. **If the ABI changes:** `cd contracts && forge build && cd ../frontend && pnpm abi`.
 
 ## Repository map
