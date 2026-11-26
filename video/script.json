@@ -1,0 +1,125 @@
+{
+  "title": "Pactiq: free to quit is the whole problem",
+  "model": "eleven_multilingual_v2",
+  "voices": {
+    "narrator": {
+      "name": "Eric",
+      "id": "cjVigY5qzO86Huf0OWal",
+      "settings": { "stability": 0.5, "similarity_boost": 0.8, "style": 0.25, "use_speaker_boost": true }
+    }
+  },
+  "scenes": [
+    {
+      "id": "open",
+      "seconds": 12,
+      "lines": [
+        { "voice": "narrator", "text": "You have quit something this year. A gym. A language. A book you swore you would finish. It cost you nothing, so nobody stopped you." }
+      ]
+    },
+    {
+      "id": "problem",
+      "seconds": 12,
+      "lines": [
+        { "voice": "narrator", "text": "Habit apps make starting free, and quitting free too. That is the whole problem. A promise with no price is just a wish." }
+      ]
+    },
+    {
+      "id": "turn",
+      "seconds": 9,
+      "lines": [
+        {
+          "voice": "narrator",
+          "text": "So we put a price on the promise. This is Pactiq. Stake on a habit. Get every kept day back.",
+          "say": "So we put a price on the promise. This is Pactick. Stake on a habit. Get every kept day back."
+        }
+      ]
+    },
+    {
+      "id": "stake",
+      "seconds": 15,
+      "lines": [
+        {
+          "voice": "narrator",
+          "text": "Pick a habit, a length from three to a hundred days, and a daily stake in QIE or QUSDC. The whole amount locks in a contract. Nobody can touch it, including us.",
+          "say": "Pick a habit, a length from three to a hundred days, and a daily stake in Q I E or Q U S D C. The whole amount locks in a contract. Nobody can touch it, including us."
+        }
+      ]
+    },
+    {
+      "id": "prove",
+      "seconds": 20,
+      "lines": [
+        { "voice": "narrator", "text": "Each day you get a fresh four digit code. Write it down, and photograph yourself doing the habit with the code in frame. A vision model checks the code, the activity, and that the photo is real. Only then does the contract accept the day." }
+      ]
+    },
+    {
+      "id": "settle",
+      "seconds": 14,
+      "lines": [
+        { "voice": "narrator", "text": "Every verified day is refunded. A missed day is forfeited, and feeds the bonus pool. Keep every single day, and you earn up to fifteen percent on top." }
+      ]
+    },
+    {
+      "id": "whyqie",
+      "seconds": 17,
+      "lines": [
+        {
+          "voice": "narrator",
+          "text": "Why QIE? Because a check-in has to cost almost nothing. Signing a pact on QIE Mainnet cost six thousandths of a cent. Blocks land every three point six seconds. That is what makes a ten cent a day stake possible.",
+          "say": "Why Q I E? Because a check-in has to cost almost nothing. Signing a pact on Q I E Mainnet cost six thousandths of a cent. Blocks land every three point six seconds. That is what makes a ten cent a day stake possible."
+        }
+      ]
+    },
+    {
+      "id": "eco",
+      "seconds": 20,
+      "lines": [
+        {
+          "voice": "narrator",
+          "text": "And Pactiq uses the whole QIE ecosystem. QIE Wallet signs. QUSDC is the dollar stake. QIEDEX swaps between them. QIE ID lets you sign with your dot qie name, checked on chain. And the QIE Oracle prices dollar stakes. Five pieces, one pact.",
+          "say": "And Pactick uses the whole Q I E ecosystem. Q I E Wallet signs. Q U S D C is the dollar stake. Q I E Dex swaps between them. Q I E I D lets you sign with your dot Q I E name, checked on chain. And the Q I E Oracle prices dollar stakes. Five pieces, one pact."
+        }
+      ]
+    },
+    {
+      "id": "proof",
+      "seconds": 16,
+      "lines": [
+        {
+          "voice": "narrator",
+          "text": "It is live on mainnet. Five verified contracts. Real pacts, a real squad, a fifty QIE bonus pool, and swaps through QIEDEX. Every one of them is on the explorer.",
+          "say": "It is live on mainnet. Five verified contracts. Real pacts, a real squad, a fifty Q I E bonus pool, and swaps through Q I E Dex. Every one of them is on the explorer."
+        }
+      ]
+    },
+    {
+      "id": "why",
+      "seconds": 22,
+      "lines": [
+        {
+          "voice": "narrator",
+          "text": "Why Pactiq? Because your kept days become a public Proof of Human score that any QIE app can read. Bots farm new chains. A staked, witnessed, once a day check-in is one of the hardest things to fake. And you can do it with friends, in a squad.",
+          "say": "Why Pactick? Because your kept days become a public Proof of Human score that any Q I E app can read. Bots farm new chains. A staked, witnessed, once a day check-in is one of the hardest things to fake. And you can do it with friends, in a squad."
+        }
+      ]
+    },
+    {
+      "id": "trust",
+      "seconds": 13,
+      "lines": [
+        { "voice": "narrator", "text": "The AI can be wrong, so it never holds the keys. The contract checks a signature, once per day, per wallet. The model decides if you did it. The contract decides if that counts." }
+      ]
+    },
+    {
+      "id": "close",
+      "seconds": 11,
+      "lines": [
+        {
+          "voice": "narrator",
+          "text": "Pactiq. Free to quit is the whole problem. Built on QIE, for the QIE Blockchain Hackathon.",
+          "say": "Pactick. Free to quit is the whole problem. Built on Q I E, for the Q I E Blockchain Hackathon."
+        }
+      ]
+    }
+  ]
+}

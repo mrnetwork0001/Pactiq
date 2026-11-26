@@ -1,0 +1,127 @@
+{
+ "readAtUTC": "2026-11-25T15:56:34.007Z",
+ "chainId": 1990,
+ "head": 12165620,
+ "blockSeconds": 3.62,
+ "qieUsd": 0.14051074,
+ "addresses": {
+  "vault": "0xcc8cb1Ae278dbc5077A8c0aB7517F1278C84Be3B",
+  "badges": "0x94B80026A0087613927eC5104791A0d9334B31b1",
+  "router": "0x5302338570D5565bEf50bdEa64Ce992b54DF96C4",
+  "names": "0xD4BB76117D5E3763e8750519D10F40d1eb1A5A02",
+  "campaign": "0x06304d82ca0beEDd54B751D4f73F16A569D0Ce30",
+  "qusdc": "0x3F43DA82eC9A4f5285F10FaF1F26EcA7319E5DA5",
+  "oracle": "0x3Bc617cF3A4Bb77003e4c556B87b13D556903D17",
+  "qiedexRouter": "0x08cd2e72e156D8563B4351eb4065C262A9f553Ef"
+ },
+ "deployTx": {
+  "hash": "0xb8d69dd957ee3df498b4f40821970edbbcfdc5445ae1fff667720a274beb4396",
+  "block": 12109737,
+  "utc": "2026-11-23T07:48:55.000Z"
+ },
+ "vaultTxs": [
+  {
+   "step": "fundRewardPool",
+   "hash": "0x715b1aa43b84ba750dcb411776ddb22e0e8c4ba0e65e775086c36cc44595d57f",
+   "block": 12109744,
+   "utc": "2026-11-23T07:49:21.000Z",
+   "from": "0x6d64ee62738f462121a66c3a23e0210b708bde3f",
+   "valueQie": 50,
+   "feeQie": 0.00005703075,
+   "failed": false
+  },
+  {
+   "step": "createPact",
+   "hash": "0x57cc01a92e4234db6fca5bc0c0eb6d7998fa3593e5a35616161592cb3e7117ff",
+   "block": 12110979,
+   "utc": "2026-11-23T09:04:09.000Z",
+   "from": "0x07f3d74e8bc5fdbfc02a3187dbd6cd08e96c05a8",
+   "valueQie": 0.07,
+   "feeQie": 0.000403049,
+   "failed": false
+  },
+  {
+   "step": "createPact",
+   "hash": "0x924d3b9a3d439ae4fe525121001ad68f20315480acaa133379c72e2286028162",
+   "block": 12111069,
+   "utc": "2026-11-23T09:09:36.000Z",
+   "from": "0xba28e27ffc8f479bfbb05b50e102881fc38f4096",
+   "valueQie": 0.07,
+   "feeQie": 0.000345339,
+   "failed": false
+  },
+  {
+   "step": "createPactUsd",
+   "hash": "0x73a766b566f8bb37674842135431f20a3f1e2bdc0937c02c59dc0d6fccdd5f03",
+   "block": 12111085,
+   "utc": "2026-11-23T09:10:34.000Z",
+   "from": "0xba28e27ffc8f479bfbb05b50e102881fc38f4096",
+   "valueQie": 2.1672887048319125,
+   "feeQie": 0.000336981375,
+   "failed": false
+  },
+  {
+   "step": "createPact",
+   "hash": "0xf91b062d77f91a50d39b399f1a19d7b2d9aed7bfea5cca4bdb4e611bcc8ce78e",
+   "block": 12111136,
+   "utc": "2026-11-23T09:13:38.000Z",
+   "from": "0xba28e27ffc8f479bfbb05b50e102881fc38f4096",
+   "valueQie": 0,
+   "feeQie": 0.000406344375,
+   "failed": false
+  },
+  {
+   "step": "createSquad",
+   "hash": "0x1b698de3a11b121be5e5ac596eafceaed8cba187b462bf481836b32d96fcd855",
+   "block": 12111162,
+   "utc": "2026-11-23T09:15:12.000Z",
+   "from": "0xba28e27ffc8f479bfbb05b50e102881fc38f4096",
+   "valueQie": 0,
+   "feeQie": 0.000252829125,
+   "failed": false
+  },
+  {
+   "step": "joinSquad",
+   "hash": "0xe0381bb88e65b118a8ff7a0f58c4db1c78cc457df3bf6e215451f9818abcad3a",
+   "block": 12111164,
+   "utc": "2026-11-23T09:15:19.000Z",
+   "from": "0xba28e27ffc8f479bfbb05b50e102881fc38f4096",
+   "valueQie": 0.03,
+   "feeQie": 0.000442899,
+   "failed": false
+  },
+  {
+   "step": "sponsorSquad",
+   "hash": "0x07e7dd009d0fa2d9320c06ff7b2c786d83d6243cabb42c94e163167c87272b68",
+   "block": 12111185,
+   "utc": "2026-11-23T09:16:35.000Z",
+   "from": "0xba28e27ffc8f479bfbb05b50e102881fc38f4096",
+   "valueQie": 0.05,
+   "feeQie": 0.000117084375,
+   "failed": false
+  }
+ ],
+ "swaps": [
+  {
+   "hash": "0x0af0c7bc6782e09174fe8ee17e52d58fbdcebcf62ebe76d2a1228279a48c906d",
+   "block": 12109925,
+   "utc": "2026-11-23T08:00:22.000Z",
+   "valueQie": 1
+  },
+  {
+   "hash": "0xeb8953313db45a6434a96c912ae98a0dce2056977524a6e6617a313e4dc041dc",
+   "block": 12111097,
+   "utc": "2026-11-23T09:11:17.000Z",
+   "valueQie": 5
+  }
+ ],
+ "statsRaw": "0x000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000001fd8bdefd2a97cce000000000000000000000000000000000000000000000002b5e3af16b18800000000000000000000000000000000000000000000000000001fd8bdefd2a97cce00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000b1a2bc2ec50000",
+ "campaign": {
+  "balanceQie": 0,
+  "reward": 20,
+  "winners": 10,
+  "minStreak": 3
+ },
+ "signFeeQie": 0.000406344375,
+ "signFeeUsd": 0.0000570957488260875
+}

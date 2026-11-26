@@ -1,0 +1,181 @@
+{
+ "explorer": {
+  "file": "footage/explorer.mp4",
+  "width": 1600,
+  "height": 900,
+  "durationFrames": 587,
+  "marks": {
+   "vault": 27,
+   "tx": 445
+  },
+  "rects": {},
+  "scale": 2,
+  "source": "explorer"
+ },
+ "home": {
+  "file": "footage/home.mp4",
+  "width": 1600,
+  "height": 900,
+  "durationFrames": 572,
+  "marks": {
+   "hero": 26,
+   "stats": 153,
+   "terms": 255,
+   "qie": 400
+  },
+  "rects": {
+   "hero": {
+    "x": 100,
+    "y": 65,
+    "w": 1400,
+    "h": 2984
+   },
+   "terms": {
+    "x": 124,
+    "y": 100,
+    "w": 1352,
+    "h": 332
+   },
+   "qie": {
+    "x": 124,
+    "y": 100,
+    "w": 1352,
+    "h": 458
+   }
+  },
+  "scale": 2,
+  "source": "mainnet"
+ },
+ "create": {
+  "file": "footage/create.mp4",
+  "width": 1600,
+  "height": 900,
+  "durationFrames": 782,
+  "marks": {
+   "open": 71,
+   "form": 132,
+   "stake": 323,
+   "sign": 530,
+   "tracker": 591,
+   "signed": 645,
+   "sig": 437
+  },
+  "rects": {
+   "signature": {
+    "x": 585,
+    "y": 760,
+    "w": 470,
+    "h": 106
+   }
+  },
+  "scale": 1.5,
+  "source": "demo"
+ },
+ "checkin": {
+  "file": "footage/checkin.mp4",
+  "width": 1600,
+  "height": 900,
+  "durationFrames": 1106,
+  "marks": {
+   "pacts": 195,
+   "modal": 307,
+   "photo": 469,
+   "asked": 503,
+   "verdict": 608,
+   "stamp": 765,
+   "stamped": 774,
+   "card": 964
+  },
+  "rects": {
+   "code": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0
+   },
+   "report": {
+    "x": 545,
+    "y": 171,
+    "w": 510,
+    "h": 697
+   }
+  },
+  "scale": 1.5,
+  "source": "demo"
+ },
+ "pacts": {
+  "file": "footage/pacts.mp4",
+  "width": 1600,
+  "height": 900,
+  "durationFrames": 728,
+  "marks": {
+   "top": 262,
+   "mid": 383,
+   "low": 527
+  },
+  "rects": {},
+  "scale": 1.5,
+  "source": "demo"
+ },
+ "phone": {
+  "file": "footage/phone.mp4",
+  "width": 390,
+  "height": 844,
+  "durationFrames": 902,
+  "marks": {
+   "pacts": 375,
+   "squads": 560,
+   "today": 225,
+   "ranks": 666,
+   "more": 774
+  },
+  "rects": {},
+  "scale": 2,
+  "source": "demo"
+ },
+ "profile": {
+  "file": "footage/profile.mp4",
+  "width": 1600,
+  "height": 900,
+  "durationFrames": 323,
+  "marks": {
+   "lower": 179
+  },
+  "rects": {},
+  "scale": 1.5,
+  "source": "demo"
+ },
+ "swap": {
+  "file": "footage/swap.mp4",
+  "width": 1600,
+  "height": 900,
+  "durationFrames": 501,
+  "marks": {
+   "open": 190,
+   "sheet": 269,
+   "quote": 378
+  },
+  "rects": {
+   "swap": {
+    "x": 513,
+    "y": 161,
+    "w": 574,
+    "h": 119
+   }
+  },
+  "scale": 1.5,
+  "source": "demo"
+ },
+ "tabs": {
+  "file": "footage/tabs.mp4",
+  "width": 1600,
+  "height": 900,
+  "durationFrames": 767,
+  "marks": {
+   "register": 504
+  },
+  "rects": {},
+  "scale": 1.5,
+  "source": "demo"
+ }
+}

@@ -1,0 +1,2361 @@
+{
+ "fps": 30,
+ "totalFrames": 5250,
+ "bpm": 84.5,
+ "beats": [
+  10,
+  31,
+  53,
+  74,
+  95,
+  116,
+  138,
+  159,
+  180,
+  202,
+  223,
+  244,
+  266,
+  287,
+  308,
+  329,
+  351,
+  372,
+  393,
+  415,
+  436,
+  457,
+  479,
+  500,
+  521,
+  542,
+  564,
+  585,
+  606,
+  628,
+  649,
+  670,
+  692,
+  713,
+  734,
+  755,
+  777,
+  798,
+  819,
+  841,
+  862,
+  883,
+  905,
+  926,
+  947,
+  968,
+  990,
+  1011,
+  1032,
+  1054,
+  1075,
+  1096,
+  1118,
+  1139,
+  1160,
+  1181,
+  1203,
+  1224,
+  1245,
+  1267,
+  1288,
+  1309,
+  1331,
+  1352,
+  1373,
+  1395,
+  1416,
+  1437,
+  1458,
+  1480,
+  1501,
+  1522,
+  1544,
+  1565,
+  1586,
+  1608,
+  1629,
+  1650,
+  1671,
+  1693,
+  1714,
+  1735,
+  1757,
+  1778,
+  1799,
+  1821,
+  1842,
+  1863,
+  1884,
+  1906,
+  1927,
+  1948,
+  1970,
+  1991,
+  2012,
+  2034,
+  2055,
+  2076,
+  2097,
+  2119,
+  2140,
+  2161,
+  2183,
+  2204,
+  2225,
+  2247,
+  2268,
+  2289,
+  2310,
+  2332,
+  2353,
+  2374,
+  2396,
+  2417,
+  2438,
+  2460,
+  2481,
+  2502,
+  2524,
+  2545,
+  2566,
+  2587,
+  2609,
+  2630,
+  2651,
+  2673,
+  2694,
+  2715,
+  2737,
+  2758,
+  2779,
+  2800,
+  2822,
+  2843,
+  2864,
+  2886,
+  2907,
+  2928,
+  2950,
+  2971,
+  2992,
+  3013,
+  3035,
+  3056,
+  3077,
+  3099,
+  3120,
+  3141,
+  3163,
+  3184,
+  3205,
+  3226,
+  3248,
+  3269,
+  3290,
+  3312,
+  3333,
+  3354,
+  3376,
+  3397,
+  3418,
+  3439,
+  3461,
+  3482,
+  3503,
+  3525,
+  3546,
+  3567,
+  3589,
+  3610,
+  3631,
+  3653,
+  3674,
+  3695,
+  3716,
+  3738,
+  3759,
+  3780,
+  3802,
+  3823,
+  3844,
+  3866,
+  3887,
+  3908,
+  3929,
+  3951,
+  3972,
+  3993,
+  4015,
+  4036,
+  4057,
+  4079,
+  4100,
+  4121,
+  4142,
+  4164,
+  4185,
+  4206,
+  4228,
+  4249,
+  4270,
+  4292,
+  4313,
+  4334,
+  4355,
+  4377,
+  4398,
+  4419,
+  4441,
+  4462,
+  4483,
+  4505,
+  4526,
+  4547,
+  4568,
+  4590,
+  4611,
+  4632,
+  4654,
+  4675,
+  4696,
+  4718,
+  4739,
+  4760,
+  4781,
+  4803,
+  4824,
+  4845,
+  4867,
+  4888,
+  4909,
+  4931,
+  4952,
+  4973,
+  4995,
+  5016,
+  5037,
+  5058,
+  5080,
+  5101,
+  5122,
+  5144,
+  5165,
+  5186,
+  5208,
+  5229
+ ],
+ "music": {
+  "file": "audio/music.mp3",
+  "source": "elevenlabs-music"
+ },
+ "scenes": [
+  {
+   "id": "open",
+   "from": 0,
+   "durationInFrames": 360,
+   "lines": [
+    {
+     "voice": "narrator",
+     "text": "You have quit something this year. A gym. A language. A book you swore you would finish. It cost you nothing, so nobody stopped you.",
+     "file": "audio/vo/open_0.mp3",
+     "startFrame": 8,
+     "durationFrames": 299,
+     "words": [
+      {
+       "word": "You",
+       "start": 8,
+       "end": 13
+      },
+      {
+       "word": "have",
+       "start": 14,
+       "end": 18
+      },
+      {
+       "word": "quit",
+       "start": 19,
+       "end": 25
+      },
+      {
+       "word": "something",
+       "start": 27,
+       "end": 36
+      },
+      {
+       "word": "this",
+       "start": 37,
+       "end": 41
+      },
+      {
+       "word": "year.",
+       "start": 43,
+       "end": 55
+      },
+      {
+       "word": "A",
+       "start": 74,
+       "end": 77
+      },
+      {
+       "word": "gym.",
+       "start": 80,
+       "end": 97
+      },
+      {
+       "word": "A",
+       "start": 117,
+       "end": 119
+      },
+      {
+       "word": "language.",
+       "start": 123,
+       "end": 142
+      },
+      {
+       "word": "A",
+       "start": 156,
+       "end": 158
+      },
+      {
+       "word": "book",
+       "start": 161,
+       "end": 166
+      },
+      {
+       "word": "you",
+       "start": 167,
+       "end": 170
+      },
+      {
+       "word": "swore",
+       "start": 172,
+       "end": 178
+      },
+      {
+       "word": "you",
+       "start": 180,
+       "end": 182
+      },
+      {
+       "word": "would",
+       "start": 183,
+       "end": 187
+      },
+      {
+       "word": "finish.",
+       "start": 189,
+       "end": 207
+      },
+      {
+       "word": "It",
+       "start": 226,
+       "end": 230
+      },
+      {
+       "word": "cost",
+       "start": 232,
+       "end": 239
+      },
+      {
+       "word": "you",
+       "start": 240,
+       "end": 242
+      },
+      {
+       "word": "nothing,",
+       "start": 245,
+       "end": 258
+      },
+      {
+       "word": "so",
+       "start": 259,
+       "end": 265
+      },
+      {
+       "word": "nobody",
+       "start": 268,
+       "end": 278
+      },
+      {
+       "word": "stopped",
+       "start": 279,
+       "end": 289
+      },
+      {
+       "word": "you.",
+       "start": 290,
+       "end": 306
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "problem",
+   "from": 360,
+   "durationInFrames": 360,
+   "lines": [
+    {
+     "voice": "narrator",
+     "text": "Habit apps make starting free, and quitting free too. That is the whole problem. A promise with no price is just a wish.",
+     "file": "audio/vo/problem_0.mp3",
+     "startFrame": 368,
+     "durationFrames": 214,
+     "words": [
+      {
+       "word": "Habit",
+       "start": 368,
+       "end": 378
+      },
+      {
+       "word": "apps",
+       "start": 379,
+       "end": 385
+      },
+      {
+       "word": "make",
+       "start": 387,
+       "end": 392
+      },
+      {
+       "word": "starting",
+       "start": 393,
+       "end": 402
+      },
+      {
+       "word": "free,",
+       "start": 404,
+       "end": 415
+      },
+      {
+       "word": "and",
+       "start": 422,
+       "end": 426
+      },
+      {
+       "word": "quitting",
+       "start": 428,
+       "end": 435
+      },
+      {
+       "word": "free",
+       "start": 437,
+       "end": 442
+      },
+      {
+       "word": "too.",
+       "start": 443,
+       "end": 456
+      },
+      {
+       "word": "That",
+       "start": 474,
+       "end": 480
+      },
+      {
+       "word": "is",
+       "start": 481,
+       "end": 483
+      },
+      {
+       "word": "the",
+       "start": 485,
+       "end": 487
+      },
+      {
+       "word": "whole",
+       "start": 489,
+       "end": 496
+      },
+      {
+       "word": "problem.",
+       "start": 497,
+       "end": 513
+      },
+      {
+       "word": "A",
+       "start": 518,
+       "end": 520
+      },
+      {
+       "word": "promise",
+       "start": 522,
+       "end": 533
+      },
+      {
+       "word": "with",
+       "start": 534,
+       "end": 538
+      },
+      {
+       "word": "no",
+       "start": 540,
+       "end": 543
+      },
+      {
+       "word": "price",
+       "start": 545,
+       "end": 554
+      },
+      {
+       "word": "is",
+       "start": 555,
+       "end": 557
+      },
+      {
+       "word": "just",
+       "start": 560,
+       "end": 566
+      },
+      {
+       "word": "a",
+       "start": 568,
+       "end": 568
+      },
+      {
+       "word": "wish.",
+       "start": 570,
+       "end": 581
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "turn",
+   "from": 720,
+   "durationInFrames": 270,
+   "lines": [
+    {
+     "voice": "narrator",
+     "text": "So we put a price on the promise. This is Pactiq. Stake on a habit. Get every kept day back.",
+     "file": "audio/vo/turn_0.mp3",
+     "startFrame": 728,
+     "durationFrames": 159,
+     "words": [
+      {
+       "word": "So",
+       "start": 728,
+       "end": 733
+      },
+      {
+       "word": "we",
+       "start": 734,
+       "end": 736
+      },
+      {
+       "word": "put",
+       "start": 738,
+       "end": 742
+      },
+      {
+       "word": "a",
+       "start": 742,
+       "end": 743
+      },
+      {
+       "word": "price",
+       "start": 744,
+       "end": 751
+      },
+      {
+       "word": "on",
+       "start": 752,
+       "end": 754
+      },
+      {
+       "word": "the",
+       "start": 755,
+       "end": 757
+      },
+      {
+       "word": "promise.",
+       "start": 758,
+       "end": 769
+      },
+      {
+       "word": "This",
+       "start": 770,
+       "end": 775
+      },
+      {
+       "word": "is",
+       "start": 777,
+       "end": 779
+      },
+      {
+       "word": "Pactiq.",
+       "start": 780,
+       "end": 799
+      },
+      {
+       "word": "Stake",
+       "start": 809,
+       "end": 819
+      },
+      {
+       "word": "on",
+       "start": 820,
+       "end": 822
+      },
+      {
+       "word": "a",
+       "start": 824,
+       "end": 824
+      },
+      {
+       "word": "habit.",
+       "start": 826,
+       "end": 838
+      },
+      {
+       "word": "Get",
+       "start": 841,
+       "end": 846
+      },
+      {
+       "word": "every",
+       "start": 847,
+       "end": 853
+      },
+      {
+       "word": "kept",
+       "start": 854,
+       "end": 860
+      },
+      {
+       "word": "day",
+       "start": 861,
+       "end": 865
+      },
+      {
+       "word": "back.",
+       "start": 866,
+       "end": 887
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "stake",
+   "from": 990,
+   "durationInFrames": 450,
+   "lines": [
+    {
+     "voice": "narrator",
+     "text": "Pick a habit, a length from three to a hundred days, and a daily stake in QIE or QUSDC. The whole amount locks in a contract. Nobody can touch it, including us.",
+     "file": "audio/vo/stake_0.mp3",
+     "startFrame": 998,
+     "durationFrames": 346,
+     "words": [
+      {
+       "word": "Pick",
+       "start": 998,
+       "end": 1005
+      },
+      {
+       "word": "a",
+       "start": 1006,
+       "end": 1006
+      },
+      {
+       "word": "habit,",
+       "start": 1008,
+       "end": 1023
+      },
+      {
+       "word": "a",
+       "start": 1028,
+       "end": 1030
+      },
+      {
+       "word": "length",
+       "start": 1032,
+       "end": 1039
+      },
+      {
+       "word": "from",
+       "start": 1041,
+       "end": 1046
+      },
+      {
+       "word": "three",
+       "start": 1048,
+       "end": 1058
+      },
+      {
+       "word": "to",
+       "start": 1059,
+       "end": 1062
+      },
+      {
+       "word": "a",
+       "start": 1065,
+       "end": 1065
+      },
+      {
+       "word": "hundred",
+       "start": 1067,
+       "end": 1074
+      },
+      {
+       "word": "days,",
+       "start": 1075,
+       "end": 1090
+      },
+      {
+       "word": "and",
+       "start": 1096,
+       "end": 1101
+      },
+      {
+       "word": "a",
+       "start": 1102,
+       "end": 1103
+      },
+      {
+       "word": "daily",
+       "start": 1105,
+       "end": 1113
+      },
+      {
+       "word": "stake",
+       "start": 1115,
+       "end": 1123
+      },
+      {
+       "word": "in",
+       "start": 1123,
+       "end": 1125
+      },
+      {
+       "word": "QIE",
+       "start": 1127,
+       "end": 1150
+      },
+      {
+       "word": "or",
+       "start": 1153,
+       "end": 1158
+      },
+      {
+       "word": "QUSDC.",
+       "start": 1161,
+       "end": 1204
+      },
+      {
+       "word": "The",
+       "start": 1212,
+       "end": 1216
+      },
+      {
+       "word": "whole",
+       "start": 1217,
+       "end": 1223
+      },
+      {
+       "word": "amount",
+       "start": 1224,
+       "end": 1233
+      },
+      {
+       "word": "locks",
+       "start": 1234,
+       "end": 1242
+      },
+      {
+       "word": "in",
+       "start": 1243,
+       "end": 1245
+      },
+      {
+       "word": "a",
+       "start": 1246,
+       "end": 1246
+      },
+      {
+       "word": "contract.",
+       "start": 1248,
+       "end": 1269
+      },
+      {
+       "word": "Nobody",
+       "start": 1284,
+       "end": 1293
+      },
+      {
+       "word": "can",
+       "start": 1295,
+       "end": 1298
+      },
+      {
+       "word": "touch",
+       "start": 1299,
+       "end": 1306
+      },
+      {
+       "word": "it,",
+       "start": 1307,
+       "end": 1312
+      },
+      {
+       "word": "including",
+       "start": 1314,
+       "end": 1327
+      },
+      {
+       "word": "us.",
+       "start": 1329,
+       "end": 1344
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "prove",
+   "from": 1440,
+   "durationInFrames": 532,
+   "lines": [
+    {
+     "voice": "narrator",
+     "text": "Each day you get a fresh four digit code. Write it down, and photograph yourself doing the habit with the code in frame. A vision model checks the code, the activity, and that the photo is real. Only then does the contract accept the day.",
+     "file": "audio/vo/prove_0.mp3",
+     "startFrame": 1448,
+     "durationFrames": 457,
+     "words": [
+      {
+       "word": "Each",
+       "start": 1448,
+       "end": 1456
+      },
+      {
+       "word": "day",
+       "start": 1458,
+       "end": 1463
+      },
+      {
+       "word": "you",
+       "start": 1464,
+       "end": 1466
+      },
+      {
+       "word": "get",
+       "start": 1468,
+       "end": 1470
+      },
+      {
+       "word": "a",
+       "start": 1471,
+       "end": 1472
+      },
+      {
+       "word": "fresh",
+       "start": 1473,
+       "end": 1480
+      },
+      {
+       "word": "four",
+       "start": 1482,
+       "end": 1487
+      },
+      {
+       "word": "digit",
+       "start": 1489,
+       "end": 1498
+      },
+      {
+       "word": "code.",
+       "start": 1500,
+       "end": 1514
+      },
+      {
+       "word": "Write",
+       "start": 1529,
+       "end": 1538
+      },
+      {
+       "word": "it",
+       "start": 1539,
+       "end": 1541
+      },
+      {
+       "word": "down,",
+       "start": 1542,
+       "end": 1555
+      },
+      {
+       "word": "and",
+       "start": 1558,
+       "end": 1564
+      },
+      {
+       "word": "photograph",
+       "start": 1566,
+       "end": 1579
+      },
+      {
+       "word": "yourself",
+       "start": 1581,
+       "end": 1594
+      },
+      {
+       "word": "doing",
+       "start": 1602,
+       "end": 1610
+      },
+      {
+       "word": "the",
+       "start": 1611,
+       "end": 1613
+      },
+      {
+       "word": "habit",
+       "start": 1615,
+       "end": 1624
+      },
+      {
+       "word": "with",
+       "start": 1625,
+       "end": 1629
+      },
+      {
+       "word": "the",
+       "start": 1631,
+       "end": 1633
+      },
+      {
+       "word": "code",
+       "start": 1634,
+       "end": 1642
+      },
+      {
+       "word": "in",
+       "start": 1642,
+       "end": 1644
+      },
+      {
+       "word": "frame.",
+       "start": 1647,
+       "end": 1662
+      },
+      {
+       "word": "A",
+       "start": 1680,
+       "end": 1682
+      },
+      {
+       "word": "vision",
+       "start": 1684,
+       "end": 1692
+      },
+      {
+       "word": "model",
+       "start": 1694,
+       "end": 1701
+      },
+      {
+       "word": "checks",
+       "start": 1703,
+       "end": 1712
+      },
+      {
+       "word": "the",
+       "start": 1713,
+       "end": 1715
+      },
+      {
+       "word": "code,",
+       "start": 1717,
+       "end": 1731
+      },
+      {
+       "word": "the",
+       "start": 1736,
+       "end": 1739
+      },
+      {
+       "word": "activity,",
+       "start": 1741,
+       "end": 1762
+      },
+      {
+       "word": "and",
+       "start": 1768,
+       "end": 1773
+      },
+      {
+       "word": "that",
+       "start": 1774,
+       "end": 1777
+      },
+      {
+       "word": "the",
+       "start": 1779,
+       "end": 1781
+      },
+      {
+       "word": "photo",
+       "start": 1782,
+       "end": 1791
+      },
+      {
+       "word": "is",
+       "start": 1794,
+       "end": 1796
+      },
+      {
+       "word": "real.",
+       "start": 1799,
+       "end": 1812
+      },
+      {
+       "word": "Only",
+       "start": 1830,
+       "end": 1837
+      },
+      {
+       "word": "then",
+       "start": 1839,
+       "end": 1844
+      },
+      {
+       "word": "does",
+       "start": 1845,
+       "end": 1849
+      },
+      {
+       "word": "the",
+       "start": 1850,
+       "end": 1852
+      },
+      {
+       "word": "contract",
+       "start": 1854,
+       "end": 1868
+      },
+      {
+       "word": "accept",
+       "start": 1870,
+       "end": 1883
+      },
+      {
+       "word": "the",
+       "start": 1884,
+       "end": 1887
+      },
+      {
+       "word": "day.",
+       "start": 1888,
+       "end": 1905
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "settle",
+   "from": 1972,
+   "durationInFrames": 420,
+   "lines": [
+    {
+     "voice": "narrator",
+     "text": "Every verified day is refunded. A missed day is forfeited, and feeds the bonus pool. Keep every single day, and you earn up to fifteen percent on top.",
+     "file": "audio/vo/settle_0.mp3",
+     "startFrame": 1980,
+     "durationFrames": 307,
+     "words": [
+      {
+       "word": "Every",
+       "start": 1980,
+       "end": 1988
+      },
+      {
+       "word": "verified",
+       "start": 1989,
+       "end": 2005
+      },
+      {
+       "word": "day",
+       "start": 2006,
+       "end": 2016
+      },
+      {
+       "word": "is",
+       "start": 2019,
+       "end": 2024
+      },
+      {
+       "word": "refunded.",
+       "start": 2027,
+       "end": 2048
+      },
+      {
+       "word": "A",
+       "start": 2060,
+       "end": 2062
+      },
+      {
+       "word": "missed",
+       "start": 2065,
+       "end": 2072
+      },
+      {
+       "word": "day",
+       "start": 2074,
+       "end": 2083
+      },
+      {
+       "word": "is",
+       "start": 2086,
+       "end": 2091
+      },
+      {
+       "word": "forfeited,",
+       "start": 2094,
+       "end": 2114
+      },
+      {
+       "word": "and",
+       "start": 2121,
+       "end": 2126
+      },
+      {
+       "word": "feeds",
+       "start": 2129,
+       "end": 2138
+      },
+      {
+       "word": "the",
+       "start": 2139,
+       "end": 2141
+      },
+      {
+       "word": "bonus",
+       "start": 2142,
+       "end": 2150
+      },
+      {
+       "word": "pool.",
+       "start": 2152,
+       "end": 2162
+      },
+      {
+       "word": "Keep",
+       "start": 2173,
+       "end": 2179
+      },
+      {
+       "word": "every",
+       "start": 2181,
+       "end": 2187
+      },
+      {
+       "word": "single",
+       "start": 2188,
+       "end": 2196
+      },
+      {
+       "word": "day,",
+       "start": 2198,
+       "end": 2211
+      },
+      {
+       "word": "and",
+       "start": 2216,
+       "end": 2221
+      },
+      {
+       "word": "you",
+       "start": 2222,
+       "end": 2225
+      },
+      {
+       "word": "earn",
+       "start": 2226,
+       "end": 2231
+      },
+      {
+       "word": "up",
+       "start": 2232,
+       "end": 2235
+      },
+      {
+       "word": "to",
+       "start": 2236,
+       "end": 2237
+      },
+      {
+       "word": "fifteen",
+       "start": 2239,
+       "end": 2251
+      },
+      {
+       "word": "percent",
+       "start": 2252,
+       "end": 2262
+      },
+      {
+       "word": "on",
+       "start": 2264,
+       "end": 2266
+      },
+      {
+       "word": "top.",
+       "start": 2268,
+       "end": 2287
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "whyqie",
+   "from": 2392,
+   "durationInFrames": 510,
+   "lines": [
+    {
+     "voice": "narrator",
+     "text": "Why QIE? Because a check-in has to cost almost nothing. Signing a pact on QIE Mainnet cost six thousandths of a cent. Blocks land every three point six seconds. That is what makes a ten cent a day stake possible.",
+     "file": "audio/vo/whyqie_0.mp3",
+     "startFrame": 2400,
+     "durationFrames": 483,
+     "words": [
+      {
+       "word": "Why",
+       "start": 2400,
+       "end": 2409
+      },
+      {
+       "word": "QIE?",
+       "start": 2412,
+       "end": 2446
+      },
+      {
+       "word": "Because",
+       "start": 2464,
+       "end": 2473
+      },
+      {
+       "word": "a",
+       "start": 2474,
+       "end": 2475
+      },
+      {
+       "word": "check-in",
+       "start": 2476,
+       "end": 2488
+      },
+      {
+       "word": "has",
+       "start": 2491,
+       "end": 2495
+      },
+      {
+       "word": "to",
+       "start": 2496,
+       "end": 2498
+      },
+      {
+       "word": "cost",
+       "start": 2500,
+       "end": 2509
+      },
+      {
+       "word": "almost",
+       "start": 2511,
+       "end": 2521
+      },
+      {
+       "word": "nothing.",
+       "start": 2523,
+       "end": 2538
+      },
+      {
+       "word": "Signing",
+       "start": 2553,
+       "end": 2563
+      },
+      {
+       "word": "a",
+       "start": 2564,
+       "end": 2565
+      },
+      {
+       "word": "pact",
+       "start": 2567,
+       "end": 2576
+      },
+      {
+       "word": "on",
+       "start": 2577,
+       "end": 2579
+      },
+      {
+       "word": "QIE",
+       "start": 2581,
+       "end": 2602
+      },
+      {
+       "word": "Mainnet",
+       "start": 2605,
+       "end": 2620
+      },
+      {
+       "word": "cost",
+       "start": 2631,
+       "end": 2643
+      },
+      {
+       "word": "six",
+       "start": 2647,
+       "end": 2654
+      },
+      {
+       "word": "thousandths",
+       "start": 2656,
+       "end": 2671
+      },
+      {
+       "word": "of",
+       "start": 2672,
+       "end": 2674
+      },
+      {
+       "word": "a",
+       "start": 2676,
+       "end": 2677
+      },
+      {
+       "word": "cent.",
+       "start": 2678,
+       "end": 2693
+      },
+      {
+       "word": "Blocks",
+       "start": 2717,
+       "end": 2727
+      },
+      {
+       "word": "land",
+       "start": 2729,
+       "end": 2736
+      },
+      {
+       "word": "every",
+       "start": 2739,
+       "end": 2746
+      },
+      {
+       "word": "three",
+       "start": 2748,
+       "end": 2755
+      },
+      {
+       "word": "point",
+       "start": 2756,
+       "end": 2763
+      },
+      {
+       "word": "six",
+       "start": 2764,
+       "end": 2770
+      },
+      {
+       "word": "seconds.",
+       "start": 2771,
+       "end": 2788
+      },
+      {
+       "word": "That",
+       "start": 2801,
+       "end": 2806
+      },
+      {
+       "word": "is",
+       "start": 2808,
+       "end": 2810
+      },
+      {
+       "word": "what",
+       "start": 2811,
+       "end": 2814
+      },
+      {
+       "word": "makes",
+       "start": 2815,
+       "end": 2820
+      },
+      {
+       "word": "a",
+       "start": 2822,
+       "end": 2822
+      },
+      {
+       "word": "ten",
+       "start": 2824,
+       "end": 2831
+      },
+      {
+       "word": "cent",
+       "start": 2833,
+       "end": 2839
+      },
+      {
+       "word": "a",
+       "start": 2841,
+       "end": 2841
+      },
+      {
+       "word": "day",
+       "start": 2843,
+       "end": 2848
+      },
+      {
+       "word": "stake",
+       "start": 2849,
+       "end": 2857
+      },
+      {
+       "word": "possible.",
+       "start": 2858,
+       "end": 2882
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "eco",
+   "from": 2902,
+   "durationInFrames": 637,
+   "lines": [
+    {
+     "voice": "narrator",
+     "text": "And Pactiq uses the whole QIE ecosystem. QIE Wallet signs. QUSDC is the dollar stake. QIEDEX swaps between them. QIE ID lets you sign with your dot qie name, checked on chain. And the QIE Oracle prices dollar stakes. Five pieces, one pact.",
+     "file": "audio/vo/eco_0.mp3",
+     "startFrame": 2910,
+     "durationFrames": 622,
+     "words": [
+      {
+       "word": "And",
+       "start": 2910,
+       "end": 2915
+      },
+      {
+       "word": "Pactiq",
+       "start": 2917,
+       "end": 2930
+      },
+      {
+       "word": "uses",
+       "start": 2934,
+       "end": 2944
+      },
+      {
+       "word": "the",
+       "start": 2946,
+       "end": 2948
+      },
+      {
+       "word": "whole",
+       "start": 2949,
+       "end": 2957
+      },
+      {
+       "word": "QIE",
+       "start": 2958,
+       "end": 2977
+      },
+      {
+       "word": "ecosystem.",
+       "start": 2980,
+       "end": 3005
+      },
+      {
+       "word": "QIE",
+       "start": 3015,
+       "end": 3031
+      },
+      {
+       "word": "Wallet",
+       "start": 3034,
+       "end": 3045
+      },
+      {
+       "word": "signs.",
+       "start": 3047,
+       "end": 3063
+      },
+      {
+       "word": "QUSDC",
+       "start": 3070,
+       "end": 3106
+      },
+      {
+       "word": "is",
+       "start": 3114,
+       "end": 3117
+      },
+      {
+       "word": "the",
+       "start": 3119,
+       "end": 3121
+      },
+      {
+       "word": "dollar",
+       "start": 3122,
+       "end": 3130
+      },
+      {
+       "word": "stake.",
+       "start": 3132,
+       "end": 3147
+      },
+      {
+       "word": "QIEDEX",
+       "start": 3156,
+       "end": 3184
+      },
+      {
+       "word": "swaps",
+       "start": 3186,
+       "end": 3199
+      },
+      {
+       "word": "between",
+       "start": 3200,
+       "end": 3212
+      },
+      {
+       "word": "them.",
+       "start": 3213,
+       "end": 3221
+      },
+      {
+       "word": "QIE ID",
+       "start": 3231,
+       "end": 3264
+      },
+      {
+       "word": "lets",
+       "start": 3270,
+       "end": 3276
+      },
+      {
+       "word": "you",
+       "start": 3277,
+       "end": 3279
+      },
+      {
+       "word": "sign",
+       "start": 3281,
+       "end": 3289
+      },
+      {
+       "word": "with",
+       "start": 3290,
+       "end": 3293
+      },
+      {
+       "word": "your",
+       "start": 3294,
+       "end": 3297
+      },
+      {
+       "word": ".qie",
+       "start": 3298,
+       "end": 3323
+      },
+      {
+       "word": "name,",
+       "start": 3327,
+       "end": 3340
+      },
+      {
+       "word": "checked",
+       "start": 3345,
+       "end": 3354
+      },
+      {
+       "word": "on",
+       "start": 3355,
+       "end": 3358
+      },
+      {
+       "word": "chain.",
+       "start": 3360,
+       "end": 3375
+      },
+      {
+       "word": "And",
+       "start": 3385,
+       "end": 3389
+      },
+      {
+       "word": "the",
+       "start": 3390,
+       "end": 3392
+      },
+      {
+       "word": "QIE",
+       "start": 3393,
+       "end": 3408
+      },
+      {
+       "word": "Oracle",
+       "start": 3412,
+       "end": 3422
+      },
+      {
+       "word": "prices",
+       "start": 3424,
+       "end": 3436
+      },
+      {
+       "word": "dollar",
+       "start": 3439,
+       "end": 3447
+      },
+      {
+       "word": "stakes.",
+       "start": 3449,
+       "end": 3466
+      },
+      {
+       "word": "Five",
+       "start": 3473,
+       "end": 3482
+      },
+      {
+       "word": "pieces,",
+       "start": 3483,
+       "end": 3500
+      },
+      {
+       "word": "one",
+       "start": 3503,
+       "end": 3509
+      },
+      {
+       "word": "pact.",
+       "start": 3510,
+       "end": 3531
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "proof",
+   "from": 3539,
+   "durationInFrames": 428,
+   "lines": [
+    {
+     "voice": "narrator",
+     "text": "It is live on mainnet. Five verified contracts. Real pacts, a real squad, a fifty QIE bonus pool, and swaps through QIEDEX. Every one of them is on the explorer.",
+     "file": "audio/vo/proof_0.mp3",
+     "startFrame": 3547,
+     "durationFrames": 375,
+     "words": [
+      {
+       "word": "It",
+       "start": 3547,
+       "end": 3551
+      },
+      {
+       "word": "is",
+       "start": 3553,
+       "end": 3555
+      },
+      {
+       "word": "live",
+       "start": 3559,
+       "end": 3569
+      },
+      {
+       "word": "on",
+       "start": 3571,
+       "end": 3574
+      },
+      {
+       "word": "mainnet.",
+       "start": 3577,
+       "end": 3595
+      },
+      {
+       "word": "Five",
+       "start": 3613,
+       "end": 3622
+      },
+      {
+       "word": "verified",
+       "start": 3623,
+       "end": 3637
+      },
+      {
+       "word": "contracts.",
+       "start": 3638,
+       "end": 3660
+      },
+      {
+       "word": "Real",
+       "start": 3671,
+       "end": 3677
+      },
+      {
+       "word": "pacts,",
+       "start": 3679,
+       "end": 3690
+      },
+      {
+       "word": "a",
+       "start": 3690,
+       "end": 3692
+      },
+      {
+       "word": "real",
+       "start": 3694,
+       "end": 3699
+      },
+      {
+       "word": "squad,",
+       "start": 3700,
+       "end": 3717
+      },
+      {
+       "word": "a",
+       "start": 3726,
+       "end": 3728
+      },
+      {
+       "word": "fifty",
+       "start": 3730,
+       "end": 3738
+      },
+      {
+       "word": "QIE",
+       "start": 3739,
+       "end": 3754
+      },
+      {
+       "word": "bonus",
+       "start": 3756,
+       "end": 3766
+      },
+      {
+       "word": "pool,",
+       "start": 3769,
+       "end": 3783
+      },
+      {
+       "word": "and",
+       "start": 3790,
+       "end": 3795
+      },
+      {
+       "word": "swaps",
+       "start": 3797,
+       "end": 3808
+      },
+      {
+       "word": "through",
+       "start": 3809,
+       "end": 3816
+      },
+      {
+       "word": "QIEDEX.",
+       "start": 3818,
+       "end": 3852
+      },
+      {
+       "word": "Every",
+       "start": 3870,
+       "end": 3876
+      },
+      {
+       "word": "one",
+       "start": 3878,
+       "end": 3881
+      },
+      {
+       "word": "of",
+       "start": 3881,
+       "end": 3883
+      },
+      {
+       "word": "them",
+       "start": 3883,
+       "end": 3887
+      },
+      {
+       "word": "is",
+       "start": 3888,
+       "end": 3890
+      },
+      {
+       "word": "on",
+       "start": 3892,
+       "end": 3895
+      },
+      {
+       "word": "the",
+       "start": 3896,
+       "end": 3898
+      },
+      {
+       "word": "explorer.",
+       "start": 3899,
+       "end": 3922
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "why",
+   "from": 3967,
+   "durationInFrames": 545,
+   "lines": [
+    {
+     "voice": "narrator",
+     "text": "Why Pactiq? Because your kept days become a public Proof of Human score that any QIE app can read. Bots farm new chains. A staked, witnessed, once a day check-in is one of the hardest things to fake. And you can do it with friends, in a squad.",
+     "file": "audio/vo/why_0.mp3",
+     "startFrame": 3975,
+     "durationFrames": 492,
+     "words": [
+      {
+       "word": "Why",
+       "start": 3975,
+       "end": 3983
+      },
+      {
+       "word": "Pactiq?",
+       "start": 3986,
+       "end": 4008
+      },
+      {
+       "word": "Because",
+       "start": 4024,
+       "end": 4036
+      },
+      {
+       "word": "your",
+       "start": 4037,
+       "end": 4043
+      },
+      {
+       "word": "kept",
+       "start": 4045,
+       "end": 4052
+      },
+      {
+       "word": "days",
+       "start": 4055,
+       "end": 4065
+      },
+      {
+       "word": "become",
+       "start": 4067,
+       "end": 4074
+      },
+      {
+       "word": "a",
+       "start": 4075,
+       "end": 4076
+      },
+      {
+       "word": "public",
+       "start": 4077,
+       "end": 4086
+      },
+      {
+       "word": "Proof",
+       "start": 4088,
+       "end": 4094
+      },
+      {
+       "word": "of",
+       "start": 4096,
+       "end": 4097
+      },
+      {
+       "word": "Human",
+       "start": 4099,
+       "end": 4106
+      },
+      {
+       "word": "score",
+       "start": 4107,
+       "end": 4116
+      },
+      {
+       "word": "that",
+       "start": 4117,
+       "end": 4121
+      },
+      {
+       "word": "any",
+       "start": 4123,
+       "end": 4129
+      },
+      {
+       "word": "QIE",
+       "start": 4130,
+       "end": 4147
+      },
+      {
+       "word": "app",
+       "start": 4151,
+       "end": 4156
+      },
+      {
+       "word": "can",
+       "start": 4158,
+       "end": 4162
+      },
+      {
+       "word": "read.",
+       "start": 4164,
+       "end": 4176
+      },
+      {
+       "word": "Bots",
+       "start": 4194,
+       "end": 4203
+      },
+      {
+       "word": "farm",
+       "start": 4204,
+       "end": 4210
+      },
+      {
+       "word": "new",
+       "start": 4212,
+       "end": 4216
+      },
+      {
+       "word": "chains.",
+       "start": 4217,
+       "end": 4236
+      },
+      {
+       "word": "A",
+       "start": 4244,
+       "end": 4246
+      },
+      {
+       "word": "staked,",
+       "start": 4248,
+       "end": 4261
+      },
+      {
+       "word": "witnessed,",
+       "start": 4263,
+       "end": 4278
+      },
+      {
+       "word": "once",
+       "start": 4280,
+       "end": 4286
+      },
+      {
+       "word": "a",
+       "start": 4287,
+       "end": 4288
+      },
+      {
+       "word": "day",
+       "start": 4289,
+       "end": 4293
+      },
+      {
+       "word": "check-in",
+       "start": 4295,
+       "end": 4307
+      },
+      {
+       "word": "is",
+       "start": 4309,
+       "end": 4312
+      },
+      {
+       "word": "one",
+       "start": 4314,
+       "end": 4317
+      },
+      {
+       "word": "of",
+       "start": 4317,
+       "end": 4319
+      },
+      {
+       "word": "the",
+       "start": 4319,
+       "end": 4322
+      },
+      {
+       "word": "hardest",
+       "start": 4323,
+       "end": 4333
+      },
+      {
+       "word": "things",
+       "start": 4334,
+       "end": 4340
+      },
+      {
+       "word": "to",
+       "start": 4341,
+       "end": 4343
+      },
+      {
+       "word": "fake.",
+       "start": 4345,
+       "end": 4360
+      },
+      {
+       "word": "And",
+       "start": 4378,
+       "end": 4387
+      },
+      {
+       "word": "you",
+       "start": 4389,
+       "end": 4391
+      },
+      {
+       "word": "can",
+       "start": 4393,
+       "end": 4396
+      },
+      {
+       "word": "do",
+       "start": 4397,
+       "end": 4400
+      },
+      {
+       "word": "it",
+       "start": 4401,
+       "end": 4403
+      },
+      {
+       "word": "with",
+       "start": 4404,
+       "end": 4408
+      },
+      {
+       "word": "friends,",
+       "start": 4409,
+       "end": 4426
+      },
+      {
+       "word": "in",
+       "start": 4438,
+       "end": 4441
+      },
+      {
+       "word": "a",
+       "start": 4443,
+       "end": 4443
+      },
+      {
+       "word": "squad.",
+       "start": 4445,
+       "end": 4467
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "trust",
+   "from": 4512,
+   "durationInFrames": 390,
+   "lines": [
+    {
+     "voice": "narrator",
+     "text": "The AI can be wrong, so it never holds the keys. The contract checks a signature, once per day, per wallet. The model decides if you did it. The contract decides if that counts.",
+     "file": "audio/vo/trust_0.mp3",
+     "startFrame": 4520,
+     "durationFrames": 327,
+     "words": [
+      {
+       "word": "The",
+       "start": 4520,
+       "end": 4525
+      },
+      {
+       "word": "AI",
+       "start": 4527,
+       "end": 4537
+      },
+      {
+       "word": "can",
+       "start": 4539,
+       "end": 4542
+      },
+      {
+       "word": "be",
+       "start": 4544,
+       "end": 4546
+      },
+      {
+       "word": "wrong,",
+       "start": 4548,
+       "end": 4558
+      },
+      {
+       "word": "so",
+       "start": 4559,
+       "end": 4562
+      },
+      {
+       "word": "it",
+       "start": 4565,
+       "end": 4567
+      },
+      {
+       "word": "never",
+       "start": 4568,
+       "end": 4573
+      },
+      {
+       "word": "holds",
+       "start": 4574,
+       "end": 4581
+      },
+      {
+       "word": "the",
+       "start": 4582,
+       "end": 4584
+      },
+      {
+       "word": "keys.",
+       "start": 4585,
+       "end": 4600
+      },
+      {
+       "word": "The",
+       "start": 4616,
+       "end": 4619
+      },
+      {
+       "word": "contract",
+       "start": 4621,
+       "end": 4634
+      },
+      {
+       "word": "checks",
+       "start": 4635,
+       "end": 4643
+      },
+      {
+       "word": "a",
+       "start": 4645,
+       "end": 4645
+      },
+      {
+       "word": "signature,",
+       "start": 4648,
+       "end": 4667
+      },
+      {
+       "word": "once",
+       "start": 4670,
+       "end": 4678
+      },
+      {
+       "word": "per",
+       "start": 4680,
+       "end": 4685
+      },
+      {
+       "word": "day,",
+       "start": 4687,
+       "end": 4695
+      },
+      {
+       "word": "per",
+       "start": 4696,
+       "end": 4700
+      },
+      {
+       "word": "wallet.",
+       "start": 4702,
+       "end": 4718
+      },
+      {
+       "word": "The",
+       "start": 4736,
+       "end": 4739
+      },
+      {
+       "word": "model",
+       "start": 4741,
+       "end": 4748
+      },
+      {
+       "word": "decides",
+       "start": 4750,
+       "end": 4761
+      },
+      {
+       "word": "if",
+       "start": 4762,
+       "end": 4764
+      },
+      {
+       "word": "you",
+       "start": 4765,
+       "end": 4767
+      },
+      {
+       "word": "did",
+       "start": 4768,
+       "end": 4773
+      },
+      {
+       "word": "it.",
+       "start": 4774,
+       "end": 4779
+      },
+      {
+       "word": "The",
+       "start": 4782,
+       "end": 4786
+      },
+      {
+       "word": "contract",
+       "start": 4787,
+       "end": 4801
+      },
+      {
+       "word": "decides",
+       "start": 4802,
+       "end": 4814
+      },
+      {
+       "word": "if",
+       "start": 4815,
+       "end": 4817
+      },
+      {
+       "word": "that",
+       "start": 4818,
+       "end": 4822
+      },
+      {
+       "word": "counts.",
+       "start": 4824,
+       "end": 4846
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "close",
+   "from": 4902,
+   "durationInFrames": 348,
+   "lines": [
+    {
+     "voice": "narrator",
+     "text": "Pactiq. Free to quit is the whole problem. Built on QIE, for the QIE Blockchain Hackathon.",
+     "file": "audio/vo/close_0.mp3",
+     "startFrame": 4910,
+     "durationFrames": 221,
+     "words": [
+      {
+       "word": "Pactiq.",
+       "start": 4910,
+       "end": 4933
+      },
+      {
+       "word": "Free",
+       "start": 4940,
+       "end": 4947
+      },
+      {
+       "word": "to",
+       "start": 4948,
+       "end": 4949
+      },
+      {
+       "word": "quit",
+       "start": 4950,
+       "end": 4956
+      },
+      {
+       "word": "is",
+       "start": 4957,
+       "end": 4959
+      },
+      {
+       "word": "the",
+       "start": 4961,
+       "end": 4963
+      },
+      {
+       "word": "whole",
+       "start": 4964,
+       "end": 4971
+      },
+      {
+       "word": "problem.",
+       "start": 4972,
+       "end": 4988
+      },
+      {
+       "word": "Built",
+       "start": 5005,
+       "end": 5013
+      },
+      {
+       "word": "on",
+       "start": 5015,
+       "end": 5018
+      },
+      {
+       "word": "QIE,",
+       "start": 5020,
+       "end": 5049
+      },
+      {
+       "word": "for",
+       "start": 5051,
+       "end": 5056
+      },
+      {
+       "word": "the",
+       "start": 5057,
+       "end": 5059
+      },
+      {
+       "word": "QIE",
+       "start": 5060,
+       "end": 5079
+      },
+      {
+       "word": "Blockchain",
+       "start": 5083,
+       "end": 5098
+      },
+      {
+       "word": "Hackathon.",
+       "start": 5101,
+       "end": 5130
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
