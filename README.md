@@ -4,7 +4,7 @@
 
 Pactiq is a habit-staking app on QIE Mainnet. You lock QIE or QUSDC (QIE's dollar stablecoin) on a habit for 3 to 100 days. Each day you photograph yourself doing it next to a one-time code, an AI vision model judges the photo, and the check-in is written on-chain. Everything is measured by one number: **verified days kept**. A kept day is refunded, a missed day is forfeited, and a wallet's kept days become a public Proof-of-Human score any other QIE app can read.
 
-Built for QIE Blockchain Hackathon 3.0 · Track: Consumer Apps & Social · App: [usepactiq.vercel.app](https://usepactiq.vercel.app) · Demo: `<VIDEO_URL>` · Code: [github.com/mrnetwork0001/Pactiq](https://github.com/mrnetwork0001/Pactiq) (public)
+Built for QIE Blockchain Hackathon 3.0 · Track: Consumer Apps & Social · App: [usepactiq.vercel.app](https://usepactiq.vercel.app) · Demo: [youtu.be/8vis5Cyfam0](https://youtu.be/8vis5Cyfam0) · Code: [github.com/mrnetwork0001/Pactiq](https://github.com/mrnetwork0001/Pactiq) (public)
 
 **Judges, start here:** [usepactiq.vercel.app](https://usepactiq.vercel.app) reads live numbers straight from the vault with no wallet, and [/launch](https://usepactiq.vercel.app/launch) shows the launch campaign's contract state. To see a full pact lifecycle (stake, daily check-ins, settlement, badges) without spending anything, run the [one-command demo](#run-it-locally), which replays about 9 days of activity on a local fork of QIE Mainnet. All five contracts are source-verified on the QIE explorer: start with the vault, [`0xcc8c…Be3B`](https://mainnet.qie.digital/address/0xcc8cb1Ae278dbc5077A8c0aB7517F1278C84Be3B).
 
@@ -294,7 +294,7 @@ Read from the chain on Nov 23 2026: 5 pacts, 1 squad, 2.29 QIE and 0.70 QUSDC in
 
 | Real | Simulated, or not live yet |
 | --- | --- |
-| Five contracts deployed and source-verified on QIE Mainnet (chain 1990) | The demo video link is a placeholder |
+| Five contracts deployed and source-verified on QIE Mainnet (chain 1990) | The app flows in the demo video were recorded on the local demo chain (labelled on screen) |
 | Stakes in QIE and QUSDC held by the vault, and the 50 QIE bonus pool | The local demo chain: a fork of mainnet with about 9 days of replayed activity and a verifier that approves any photo |
 | Dollar pacts priced by the QIE Oracle inside the transaction | The pact card in the landing page hero (marked "Specimen") is an illustration |
 | QIE ⇄ QUSDC swaps on QIEDEX, attributed through `PactiqRouter` | The bonus shown before settlement is an estimate at today's pool size |
