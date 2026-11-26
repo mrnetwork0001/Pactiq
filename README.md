@@ -280,7 +280,9 @@ flowchart TB
 
 The vault was deployed on Nov 23 2026 at 07:48 UTC ([transaction](https://mainnet.qie.digital/tx/0xb8d69dd957ee3df498b4f40821970edbbcfdc5445ae1fff667720a274beb4396), block 12,109,737) and its bonus pool was seeded with 50 QIE a minute later ([transaction](https://mainnet.qie.digital/tx/0x715b1aa43b84ba750dcb411776ddb22e0e8c4ba0e65e775086c36cc44595d57f)). The same day, a dollar-priced pact was created through the on-chain oracle ([`createPactUsd`](https://mainnet.qie.digital/tx/0x73a766b566f8bb37674842135431f20a3f1e2bdc0937c02c59dc0d6fccdd5f03)), QIE was swapped for QUSDC through the router ([`swapQieForToken`](https://mainnet.qie.digital/tx/0xeb8953313db45a6434a96c912ae98a0dce2056977524a6e6617a313e4dc041dc)) and staked, and a squad was created, joined and sponsored ([`sponsorSquad`](https://mainnet.qie.digital/tx/0x07e7dd009d0fa2d9320c06ff7b2c786d83d6243cabb42c94e163167c87272b68)).
 
-Read from the chain on Nov 26 2026 (unchanged since Nov 23): 5 pacts, 1 squad, 2.29 QIE and 0.70 QUSDC in active stakes, 50 QIE in the bonus pool, and 4 swaps worth 8.65 QIE through the router. **No check-in has been recorded on mainnet yet**, so no pact has settled and no badge exists there; four of the five pacts are the team's own test pacts.
+**The first real check-in on mainnet** was recorded on Nov 26 2026 at 10:08 UTC ([`checkIn`](https://mainnet.qie.digital/tx/0xb34c992ea478557dc29354d7cb87bf3b0bc64534832260d15d4ee3fa7f15fe60), block 12,183,732): day 3 of the "Keep Coding" pact, a phone photo of a laptop with a code editor open and the day's code written on paper, approved by the AI witness at 96% confidence and signed by the verifier key before the vault accepted it.
+
+Read from the chain on Nov 26 2026: 5 pacts, 1 squad, 1 verified check-in, 2.29 QIE and 0.70 QUSDC in active stakes, 50 QIE in the bonus pool, and 4 swaps worth 8.65 QIE through the router. No pact has settled and no badge exists on mainnet yet; four of the five pacts are the team's own test pacts.
 
 ## Safety
 
@@ -304,7 +306,8 @@ Read from the chain on Nov 26 2026 (unchanged since Nov 23): 5 pacts, 1 squad, 2
 | Stakes in QIE and QUSDC held by the vault, and the 50 QIE bonus pool | The local demo chain: a fork of mainnet with about 9 days of replayed activity and a verifier that approves any photo |
 | Dollar pacts priced by the QIE Oracle inside the transaction | The pact card in the landing page hero (marked "Specimen") is an illustration |
 | QIE ⇄ QUSDC swaps on QIEDEX, attributed through `PactiqRouter` | The bonus shown before settlement is an estimate at today's pool size |
-| `.qie` names checked against QIE's registries | No verified check-in, settlement or badge exists on mainnet yet (Nov 26 2026) |
+| `.qie` names checked against QIE's registries | No settlement or badge exists on mainnet yet (Nov 26 2026) |
+| A real check-in on mainnet: photo approved by the AI witness, signed, and accepted by the vault ([transaction](https://mainnet.qie.digital/tx/0xb34c992ea478557dc29354d7cb87bf3b0bc64534832260d15d4ee3fa7f15fe60)) | |
 | AI verdicts from a real vision model on the 0G Compute Router | The AI witness has not yet been scored on a set of real check-in photos (`pnpm witness:eval` exists for that) |
 | The hosted app at [usepactiq.vercel.app](https://usepactiq.vercel.app), with totals, ticker, squads and register read from the chain | Push reminders are built and tested locally, not yet delivered from a hosted deployment |
 | The launch campaign contract and its immutable terms, funded with 204 QIE on Nov 26 2026 ([transaction](https://mainnet.qie.digital/tx/0xf9b1b328de01e61442c6e87f4dd4395f3cf45f190f096e73befcc8766dcb88ed)) | |
