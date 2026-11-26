@@ -24,7 +24,11 @@ import { ShareButtons } from "./ShareButtons";
 import { Kicker, btn } from "./ui";
 
 const PAGE = "max-w-[calc(50vw_+_600px)] mx-auto px-4 sm:px-6";
-const day = (unix: number) => new Date(unix * 1000).toLocaleDateString("en-GB", { day: "numeric", month: "long", timeZone: "UTC" });
+const day = (unix: number) => {
+  const d = new Date(unix * 1000);
+  const date = d.toLocaleDateString("en-GB", { day: "numeric", month: "long", timeZone: "UTC" });
+  return d.getUTCHours() || d.getUTCMinutes() ? `${date}, ${String(d.getUTCHours()).padStart(2, "0")}:${String(d.getUTCMinutes()).padStart(2, "0")} UTC` : date;
+};
 
 /** The launch campaign page: the offer, the three steps, the ten rewards and the rules. */
 export default function Launch() {

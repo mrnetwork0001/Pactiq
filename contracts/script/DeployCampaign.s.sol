@@ -15,7 +15,7 @@ import {PactiqCampaign} from "../src/PactiqCampaign.sol";
  *   CAMPAIGN_REWARD_WEI  QIE per winner, in wei          (default 20 QIE)
  *   CAMPAIGN_WINNERS     number of rewards               (default 10)
  *   CAMPAIGN_MIN_STREAK  consecutive days needed         (default 3)
- *   CAMPAIGN_STARTS_AT   unix time claims open           (default 25 Nov 2026 00:00 UTC)
+ *   CAMPAIGN_STARTS_AT   unix time claims open           (default 27 Nov 2026 09:00 UTC)
  *   CAMPAIGN_ENDS_AT     unix time claims close          (default 30 Nov 2026 00:00 UTC)
  */
 contract DeployCampaign is Script {
@@ -25,7 +25,7 @@ contract DeployCampaign is Script {
         uint256 reward = vm.envOr("CAMPAIGN_REWARD_WEI", uint256(20 ether));
         uint256 winners = vm.envOr("CAMPAIGN_WINNERS", uint256(10));
         uint256 minStreak = vm.envOr("CAMPAIGN_MIN_STREAK", uint256(3));
-        uint256 startsAt = vm.envOr("CAMPAIGN_STARTS_AT", uint256(1795564800));
+        uint256 startsAt = vm.envOr("CAMPAIGN_STARTS_AT", uint256(1795770000));
         uint256 endsAt = vm.envOr("CAMPAIGN_ENDS_AT", uint256(1795996800));
 
         vm.startBroadcast(key);

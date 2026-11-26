@@ -15,9 +15,9 @@ export const CAMPAIGN = {
   winners: 10,
   /** Consecutive verified days, on one pact, needed to qualify. */
   minStreak: 3,
-  /** 25 November 2026, 00:00 UTC. */
-  startsAt: Date.UTC(2026, 10, 25) / 1000,
-  /** Five days later. The campaign also ends as soon as every reward is claimed. */
+  /** 27 November 2026, 09:00 UTC. */
+  startsAt: Date.UTC(2026, 10, 27, 9) / 1000,
+  /** 30 November 2026, 00:00 UTC. The campaign also ends as soon as every reward is claimed. */
   endsAt: Date.UTC(2026, 10, 30) / 1000,
 } as const;
 

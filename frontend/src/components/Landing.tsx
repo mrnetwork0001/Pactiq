@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useWallet } from "@/hooks/useWallet";
 import { usePactiqData } from "@/hooks/usePactiqData";
 import { useNow } from "@/hooks/useNow";
+import { useCampaign } from "@/hooks/useCampaign";
 import { shortAddress } from "@/lib/format";
 import { assetOf, formatAsset } from "@/lib/assets";
 import { PactStatus, type OnchainPact } from "@/lib/types";
@@ -38,6 +39,7 @@ const SECTIONS = [
 export default function Landing() {
   const wallet = useWallet();
   const data = usePactiqData(null);
+  const campaign = useCampaign(null);
   const now = useNow(30_000);
   const router = useRouter();
   const returning = !!wallet.address;
@@ -118,7 +120,7 @@ export default function Landing() {
             <strong>{CAMPAIGN.name}:</strong> keep a {CAMPAIGN.minStreak}-day streak, and the first {CAMPAIGN.winners} to claim get{" "}
             <span className="num">{formatEther(CAMPAIGN.reward)}</span> QIE each.
           </span>
-          <CampaignCountdown startsAt={CAMPAIGN.startsAt} endsAt={CAMPAIGN.endsAt} variant="inline" className="text-ink-2" />
+          <CampaignCountdown startsAt={campaign.startsAt} endsAt={campaign.endsAt} soldOut={campaign.claimedBy.length >= campaign.winners} variant="inline" className="text-ink-2" />
           <span className="font-semibold text-seal group-hover:underline">See how &rarr;</span>
         </Link>
         <Hero returning={returning} />

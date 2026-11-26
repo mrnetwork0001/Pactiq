@@ -28,7 +28,7 @@ Built for QIE Blockchain Hackathon 3.0 · Track: Consumer Apps & Social · App: 
 | **Built-in swap** | QIE ⇄ QUSDC on QIEDEX from inside the app, at 1% maximum slippage, with a progress window for each wallet confirmation. In the pact form, a top-up quotes the exact QUSDC shortfall and buys it in one transaction. Every swap goes through `PactiqRouter`, which emits `PactiqSwap` and keeps running totals. No Pactiq fee. | `/app#swap` |
 | **Verified names (QIE ID)** | A `.qie` name on a pact is checked on-chain against QIE's two name registries and reverse resolver, so nobody can sign as someone else. The header shows the connected wallet's `.qie` name instead of its address. | Pact form, header |
 | **Charity mode** | Missed stakes go 100%, with no fee, to a cause from an owner-curated list. Anyone can trigger the payout with `releaseCharity`. The mainnet list is empty today. | Pact form |
-| **Launch campaign: The First Ten** | A separate contract pays 20 QIE to each of the first 10 wallets that claim with a best streak of 3 days or more, between Nov 25 and Nov 30 2026 (00:00 UTC), or until all 10 are claimed. The page counts down to the opening, then to the deadline. | `/launch` |
+| **Launch campaign: The First Ten** | A separate contract pays 20 QIE to each of the first 10 wallets that claim with a best streak of 3 days or more, between Nov 27 2026 09:00 UTC and Nov 30 2026 00:00 UTC, or until all 10 are claimed. The page counts down to the opening, then to the deadline. | `/launch` |
 | **Reminders** | Web push when a check-in is about to close, calendar (`.ics`) files per pact, and an installable app (web manifest and service worker). | `/app` → More, `/api/reminder/<pactId>` |
 | **Share cards** | Generated images for profiles and squads, with one-tap posting to X and Telegram. | `/api/card`, `/u/<address>`, `/squad/<id>` |
 | **Get QIE** | Links to buy QIE and to the QIE bridge for wallets that arrive empty. | `/app` |
@@ -336,7 +336,7 @@ Import the demo wallet the script prints (anvil account #1, "maya.qie", a public
 | `NEXT_PUBLIC_QIE_NETWORK` | `mainnet` (chain 1990) or `testnet` (chain 1983, also used for the local fork). |
 | `NEXT_PUBLIC_PACTIQ_CONTRACT_ADDRESS` | The vault. Mainnet: `0xcc8cb1Ae278dbc5077A8c0aB7517F1278C84Be3B`. |
 | `NEXT_PUBLIC_PACTIQ_ROUTER_ADDRESS` | The swap router. Mainnet: `0x5302338570D5565bEf50bdEa64Ce992b54DF96C4`. Unset means swaps trade on QIEDEX directly, without attribution. |
-| `NEXT_PUBLIC_CAMPAIGN_ADDRESS` | The launch campaign. Mainnet: `0x06304d82ca0beEDd54B751D4f73F16A569D0Ce30`. Unset means `/launch` shows the planned terms as a preview. |
+| `NEXT_PUBLIC_CAMPAIGN_ADDRESS` | The launch campaign. Mainnet: `0xA394F027F6Fe27F61C0b5243c8ddF0e653AA9641`. Unset means `/launch` shows the planned terms as a preview. |
 | `NEXT_PUBLIC_APP_URL` | The public URL, used in invite links, share cards and badge metadata. |
 | `NEXT_PUBLIC_RPC_URL` | Optional RPC override, for example `http://127.0.0.1:8545`. |
 | `ORACLE_PRIVATE_KEY` | The verifier key. Its address must equal the vault's `oracleSigner`. Server only. |
@@ -380,7 +380,7 @@ cd ../frontend && pnpm lint && pnpm test && pnpm build             # verdict rul
    | PactiqBadges | [`0x94B80026A0087613927eC5104791A0d9334B31b1`](https://mainnet.qie.digital/address/0x94B80026A0087613927eC5104791A0d9334B31b1) | yes |
    | PactiqRouter | [`0x5302338570D5565bEf50bdEa64Ce992b54DF96C4`](https://mainnet.qie.digital/address/0x5302338570D5565bEf50bdEa64Ce992b54DF96C4) | yes |
    | QieNameVerifier | [`0xD4BB76117D5E3763e8750519D10F40d1eb1A5A02`](https://mainnet.qie.digital/address/0xD4BB76117D5E3763e8750519D10F40d1eb1A5A02) | yes |
-   | PactiqCampaign | [`0x06304d82ca0beEDd54B751D4f73F16A569D0Ce30`](https://mainnet.qie.digital/address/0x06304d82ca0beEDd54B751D4f73F16A569D0Ce30) | yes |
+   | PactiqCampaign | [`0xA394F027F6Fe27F61C0b5243c8ddF0e653AA9641`](https://mainnet.qie.digital/address/0xA394F027F6Fe27F61C0b5243c8ddF0e653AA9641) | yes |
 
    For a fresh deployment:
    ```bash
@@ -477,7 +477,7 @@ require(IPactiqReputation(PACTIQ_VAULT).isVerifiedHuman(msg.sender, 200), "human
 - A `.qie` name is checked when a pact is signed. If the name is transferred later, past pacts keep the name they were signed with.
 - The charity list is curated by the owner, and the owner is a single key today, not a multisig.
 - Squad members settle after the squad ends, even with a perfect run, so the finisher split is final.
-- For the campaign, the vault reports a wallet's best streak but not when it happened, so a streak started before Nov 25 counts.
+- For the campaign, the vault reports a wallet's best streak but not when it happened, so a streak started before Nov 27 counts.
 
 ## User content
 
