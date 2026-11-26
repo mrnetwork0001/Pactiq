@@ -88,7 +88,7 @@ function effects(): Fx[] {
   return fx.filter((x) => x.at >= 0 && x.at < T.totalFrames);
 }
 
-export const Film: React.FC = () => {
+export const Film: React.FC<{ music?: boolean; captions?: boolean }> = ({ music = true, captions = true }) => {
   // Captions sit out where big type already carries the words.
   const hideCaptions = (f: number) => {
     const s = T.scenes.find((x) => f >= x.from && f < x.from + x.durationInFrames);
@@ -107,8 +107,8 @@ export const Film: React.FC = () => {
         ) : null;
       })}
       <Grain opacity={0.06} />
-      <Captions hidden={hideCaptions} />
-      <Audio src={staticFile("audio/music.mp3")} volume={musicVolume} />
+      {captions && <Captions hidden={hideCaptions} />}
+      {music && <Audio src={staticFile("audio/music.mp3")} volume={musicVolume} />}
       {T.scenes.flatMap((s) => s.lines).map((l, i) => (
         <Sequence key={`vo${i}`} from={l.startFrame} durationInFrames={l.durationFrames} name={`vo ${l.text.slice(0, 18)}`}>
           <Audio src={staticFile(l.file)} volume={1} />

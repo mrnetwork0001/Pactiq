@@ -1,0 +1,50 @@
+=== DEMO FILM (out/pactiq-demo-4k.mp4, 2:55) · https://youtu.be/8vis5Cyfam0 ===
+
+TITLE
+Pactiq: stake on a habit, get every kept day back | QIE Blockchain Hackathon 3.0
+
+DESCRIPTION
+Quitting a habit costs nothing, so most of us quit. Pactiq puts a price on the promise.
+
+Sign a pact, lock a small daily stake in QIE or QUSDC, and prove each day with a photo and a one-time code. An AI witness checks the photo, the server signs the day, and the contract accepts it once. Kept days are refunded. Missed days fund a bonus pool for the people who finish.
+
+Built on QIE Mainnet, with QIE Wallet, QUSDC, QIEDEX, QIE ID and the QIE Oracle.
+
+Chapters
+0:00 You quit for free
+0:12 The problem
+0:24 Pactiq
+0:33 Sign and stake
+0:48 Prove it, every day
+1:06 Settle up
+1:20 Why QIE
+1:37 The QIE ecosystem
+1:58 Live on QIE Mainnet
+2:12 Why Pactiq: Proof-of-Human score
+2:30 Under the hood
+2:43 Close
+
+Contracts on QIE Mainnet (source verified)
+PactiqVault     https://mainnet.qie.digital/address/0xcc8cb1Ae278dbc5077A8c0aB7517F1278C84Be3B
+PactiqRouter    https://mainnet.qie.digital/address/0x5302338570D5565bEf50bdEa64Ce992b54DF96C4
+PactiqBadges    https://mainnet.qie.digital/address/0x94B80026A0087613927eC5104791A0d9334B31b1
+QieNameVerifier https://mainnet.qie.digital/address/0xD4BB76117D5E3763e8750519D10F40d1eb1A5A02
+PactiqCampaign  https://mainnet.qie.digital/address/0xA394F027F6Fe27F61C0b5243c8ddF0e653AA9641
+
+What is real: the explorer pages, the fee, block time and contract counts were read from QIE Mainnet on 25 Nov 2026. The app flows (signing, check-in, swap quote, profile, phone) were recorded on a local fork of QIE Mainnet and are labelled on screen; the check-in uses a demo verifier and a stand-in photo.
+
+#QIE #QIEBlockchain #Web3 #Habits #BuildOnQIE
+
+TAGS
+Pactiq, QIE, QIE blockchain, QIE Mainnet, QIE hackathon, habit tracker, web3, dapp, staking, QUSDC, QIEDEX
+
+
+=== SHORT (out/pactiq-short.mp4, 0:57, vertical) ===
+
+TITLE
+You quit for free. So put a price on it. #shorts
+
+DESCRIPTION
+Pactiq: stake on a habit, prove it every day, get every kept day back. Built on QIE Mainnet.
+App footage recorded on a local fork of QIE Mainnet.
+#shorts #QIE #Web3 #Habits
